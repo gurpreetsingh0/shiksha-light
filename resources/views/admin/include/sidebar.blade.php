@@ -1,8 +1,8 @@
 <div class="app-sidebar colored">
     <div class="sidebar-header">
-        <a class="header-brand d-block w-100 pl-5" href="{{route('dashboard')}}">
+        <a class="header-brand d-block w-100 pl-5" href="{{route('admin.dashboard')}}">
             <div class="logo-img">
-               <h4>PRM</h4>
+               <h4>Shiksha Light</h4>
             </div>
         </a>
         <div class="sidebar-action"><i class="ik ik-arrow-left-circle"></i></div>
@@ -18,15 +18,15 @@
         <div class="nav-container">
             <nav id="main-menu-navigation" class="navigation-main">
                 <div class="nav-item {{ ($segment1 == 'dashboard') ? 'active' : '' }}">
-                    <a href="{{route('dashboard')}}"><i class="ik ik-bar-chart-2"></i><span>{{ __('Dashboard')}}</span></a>
+                    <a href="{{route('admin.dashboard')}}"><i class="ik ik-bar-chart-2"></i><span>{{ __('Dashboard')}}</span></a>
                 </div>
-                <div class="nav-lavel">{{ __('Layouts')}} </div>
+                {{-- <div class="nav-lavel">{{ __('Layouts')}} </div>
                 <div class="nav-item {{ ($segment1 == 'pos') ? 'active' : '' }}">
                     <a href="{{url('inventory')}}"><i class="ik ik-shopping-cart"></i><span>{{ __('Inventory')}}</span> <span class=" badge badge-success badge-right">{{ __('New')}}</span></a>
                 </div>
                 <div class="nav-item {{ ($segment1 == 'pos') ? 'active' : '' }}">
                     <a href="{{url('pos')}}"><i class="ik ik-printer"></i><span>{{ __('POS')}}</span> <span class=" badge badge-success badge-right">{{ __('New')}}</span></a>
-                </div> -->
+                </div> --> --}}
                 {{-- @can('manage_user') --}}
                 <div class="nav-item {{ ($segment1 == 'users' || $segment1 == 'roles'||$segment1 == 'permission' ||$segment1 == 'user') ? 'active open' : '' }} has-sub">
                     <a href="#"><i class="ik ik-user"></i><span>{{ __('Adminstrator')}}</span></a>
@@ -38,15 +38,63 @@
                          {{-- @endcan --}}
                          <!-- only those have manage_role permission will get access -->
                         {{-- @can('manage_roles') --}}
-                        <a href="{{url('roles')}}" class="menu-item {{ ($segment1 == 'roles') ? 'active' : '' }}">{{ __('Roles')}}</a>
+                        {{-- <a href="{{url('roles')}}" class="menu-item {{ ($segment1 == 'roles') ? 'active' : '' }}">{{ __('Roles')}}</a> --}}
                         {{-- @endcan --}}
                         <!-- only those have manage_permission permission will get access -->
                         {{-- @can('manage_permission') --}}
-                        <a href="{{url('permission')}}" class="menu-item {{ ($segment1 == 'permission') ? 'active' : '' }}">{{ __('Permission')}}</a>
+                        {{-- <a href="{{url('permission')}}" class="menu-item {{ ($segment1 == 'permission') ? 'active' : '' }}">{{ __('Permission')}}</a> --}}
                         {{-- @endcan --}}
                     </div>
                 </div>
                 {{-- @endcan --}}
+
+              <div class="nav-item {{ ($segment1 == 'file-manager') ? 'active open' : '' }}">
+                    <a href="{{route('admin.category')}}"><i class="ik ik-layers"></i><span>{{ __('Category')}}</span></a>
+                </div> 
+
+                {{-- Product Module --}}
+              <div class="nav-item {{ ($segment1 == 'file-manager') ? 'active open' : '' }} has-sub">
+                    <a href="#"><i class="ik ik-package"></i><span>{{ __('Product')}}</span></a>
+                  <div class="submenu-content">
+                            <a href="{{route('admin.product.create')}}" class="menu-item {{ ($segment1 == 'customer') ? 'active' : '' }}">{{ __('Create')}}</a>
+                            <a href="{{route('admin.product')}}" class="menu-item {{ ($segment1 == 'customers') ? 'active' : '' }}">{{ __('List')}}</a>
+                        </div>
+
+               </div> 
+
+               {{-- banner --}}
+              <div class="nav-item {{ ($segment1 == 'file-manager') ? 'active open' : '' }}">
+                    <a href="{{route('admin.banner')}}"><i class="ik ik-image"></i><span>{{ __('Banner')}}</span></a>
+                  {{-- <div class="submenu-content">
+                            <a href="{{route('admin.banner')}}" class="menu-item {{ ($segment1 == 'customers') ? 'active' : '' }}">{{ __('List')}}</a>
+                        </div> --}}
+
+               </div> 
+
+                {{-- @can('manage_customers')
+                    <div class="nav-item {{ ($segment1 == 'customer' || $segment1 == 'customers') ? 'active open' : '' }} has-sub">
+                        <a href="#"><i class="ik ik-users"></i><span>{{ __('Customers')}}</span></a>
+                        <div class="submenu-content">
+                            <a href="{{route('admin.customer.create')}}" class="menu-item {{ ($segment1 == 'customer') ? 'active' : '' }}">{{ __('Create')}}</a>
+                            <a href="{{url('customers')}}" class="menu-item {{ ($segment1 == 'customers') ? 'active' : '' }}">{{ __('List')}}</a>
+                        </div>
+                    </div>
+                @endcan --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                {{-- This is inbuilt sidebar --}}
 
                 {{-- <div class="nav-item {{ ($segment1 == 'file-manager') ? 'active open' : '' }}">
                     <a href="{{route('admin.getMediaManager')}}"><i class="ik ik-upload"></i><span>{{ __('Upload Media')}}</span></a>
@@ -221,9 +269,9 @@
                 <div class="nav-item {{ ($segment1 == 'layouts') ? 'active' : '' }}">
                     <a href="{{url('layouts')}}"><i class="ik ik-layout"></i><span>{{ __('Layouts')}}</span></a>
                 </div>--}}
-                <div class="nav-item {{ ($segment1 == 'icons') ? 'active' : '' }}">
+                {{-- <div class="nav-item {{ ($segment1 == 'icons') ? 'active' : '' }}">
                     <a href="{{url('icons')}}"><i class="ik ik-command"></i><span>{{ __('Icons')}}</span></a>
-                </div>
+                </div> --}}
                 {{--<div class="nav-item {{ ($segment1 == 'pricing') ? 'active' : '' }}">
                     <a href="{{url('pricing')}}"><i class="ik ik-dollar-sign"></i><span>{{ __('Pricing')}}</span></a>
                 </div>

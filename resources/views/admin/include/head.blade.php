@@ -20,9 +20,11 @@
 <link rel="stylesheet" href="{{ asset('backend_assets/plugins/fontawesome-free/css/all.min.css') }}">
 <link rel="stylesheet" href="{{ asset('backend_assets/plugins/icon-kit/dist/css/iconkit.min.css') }}">
 <link rel="stylesheet" href="{{ asset('backend_assets/plugins/ionicons/dist/css/ionicons.min.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
 <!--Media manager css file-->
 <link rel="stylesheet" href="{{ asset('backend_assets/vendor/file-manager/css/file-manager.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <!-- Stack array for including inline css or head elements -->

@@ -3,16 +3,16 @@
 <head>
 	<title>@yield('title','') | Radmin - Laravel Admin Starter</title>
 	<!-- initiate head with meta tags, css and script -->
-	@include('include.head')
+	@include('admin.include.head')
 
 </head>
 <body id="app" >
     <div class="wrapper">
     	<!-- initiate header-->
-    	@include('include.header')
+    	@include('admin.include.header')
     	<div class="page-wrap">
 	    	<!-- initiate sidebar-->
-	    	@include('inventory.inventory_sidebar')
+	    	@include('admin.inventory.inventory_sidebar')
 
 	    	<div class="main-content">
 	    		<!-- yeild contents here -->
@@ -20,19 +20,19 @@
 	    	</div>
 
 	    	<!-- initiate chat section-->
-	    	@include('include.chat')
+	    	@include('admin.include.chat')
 
 
 	    	<!-- initiate footer section-->
-	    	@include('include.footer')
+	    	@include('admin.include.footer')
 
     	</div>
     </div>
     
 	<!-- initiate modal menu section-->
-	@include('include.modalmenu')
+	@include('admin.include.modalmenu')
 
 	<!-- initiate scripts-->
-	@include('include.script')	
+	@include('admin.include.script')	
 </body>
 </html>

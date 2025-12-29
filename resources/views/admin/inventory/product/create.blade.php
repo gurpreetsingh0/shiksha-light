@@ -1,4 +1,4 @@
-@extends('inventory.layout')
+@extends('admin.inventory.layout')
 @section('title', 'Add Product')
 @section('content')
     <div class="container-fluid">

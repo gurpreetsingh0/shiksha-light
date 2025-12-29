@@ -43,7 +43,6 @@ class PermissionController extends Controller
   {
     $data = Permission::get();
     $hasManagePermission = Auth::user()->can('manage_permission');
-
     return Datatables::of($data)
       ->addColumn('roles', function ($data) {
         $roles = $data->roles()->get();
@@ -76,11 +75,20 @@ class PermissionController extends Controller
    * @return \Illuminate\Http\RedirectResponse
    */
 
-  public function create(PermissionRequest $request): RedirectResponse
+  public function create(PermissionRequest $request)//: RedirectResponse
   {
-    try {
+     try {
+      $integer_role_array = [];
+      $array_role = $request->roles;
+      if (count($array_role)) {
+        foreach ($array_role as $key => $role) {
+          $convert_int = intval($role);
+          $integer_role_array[$key] = $convert_int;
+        }
+      }
+
       $permission = Permission::create(['name' => $request->name]);
-      $permission->syncRoles($request->roles);
+      $permission->syncRoles($integer_role_array);
 
       if ($permission) {
         return redirect('permission')->with('success', 'Permission created succesfully!');
@@ -102,6 +110,7 @@ class PermissionController extends Controller
    */
   public function update(Request $request): mixed
   {
+     
     //
     $permission = Permission::find($request->id);
     $permission->name = $request->name;

@@ -1,4 +1,4 @@
-@extends('inventory.layout') 
+@extends('admin.inventory.layout') 
 @section('title', 'Products')
 @section('content')
 

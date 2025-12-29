@@ -6,8 +6,8 @@
         </span>
         <span class="float-none float-sm-right mt-1 mt-sm-0 text-center">
         	{{ __('Developed by')}}
-        	<a href="https://bmninfotech.com" class="text-dark" target="_blank">
-        		{{ __('BMN INFOTECH Pvt. Ltd.')}}
+        	<a href="https://peerinfotech.com/" class="text-dark" target="_blank">
+        		{{ __('Peer INFOTECH Pvt. Ltd.')}}
         	</a>
         </span>
     </div>
