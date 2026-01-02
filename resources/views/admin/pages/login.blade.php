@@ -40,7 +40,7 @@
                             <div class="logo-centered">
                                 <a href=""><img src="{{ asset('img/logo.png') }}" alt=""></a>
                             </div>
-                            <h3>{{ __('Sign In to ThemeKit') }}</h3>
+                            <h3>{{ __('Sign In to Shiksha Light') }}</h3>
                             <p>{{ __('Happy to see you again!') }}</p>
                             <form method="POST" action="{{ route('login') }}">
                             @csrf

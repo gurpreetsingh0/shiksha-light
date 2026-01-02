@@ -170,6 +170,7 @@ function getTopNavCat()
   foreach ($result as $row) {
     $arr[$row->id]['city'] = $row->name;
     $arr[$row->id]['parent_id'] = $row->category_id;
+    $arr[$row->id]['slug'] = $row->category_id;
   }
   // return $arr;
   $str = buildTreeView($arr, 0);

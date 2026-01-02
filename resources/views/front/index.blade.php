@@ -8,7 +8,6 @@
         <div class="seq-screen">
           <ul class="seq-canvas">
             <!-- single slide item -->
-
         @foreach ($home_banner as  $item)
             <li>
               <div class="seq-model">
