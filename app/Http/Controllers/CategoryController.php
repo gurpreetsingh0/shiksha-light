@@ -22,7 +22,7 @@ class CategoryController extends Controller
     }
 
     public function getCategoryList(Request $request){
-        $query = Category::with('parent')->select(['id','name','slug','description','status','category_id'])->get();
+        $query = Category::with('parent')->select(['id','image','name','slug','description','status','category_id'])->get();
         return DataTables::of($query)
         ->addIndexColumn()
       ->editColumn('status', function ($data) {
@@ -35,6 +35,17 @@ class CategoryController extends Controller
       })
       ->addColumn('parent',function($data){
         return ($data->parent)?$data->parent->name:"--";
+      })
+      ->editColumn('image', function ($data) {
+        // Prepare image URL
+        $imageUrl = $data->image ? asset('storage/' . $data->image) : asset('images/default.png');
+        // Return HTML for clickable image
+        return '
+            <img src="' . $imageUrl . '" 
+                 class="table-banner-thumb" 
+                 style="width:40px; border-radius:10px;  object-fit:cover; cursor:pointer;" 
+                 onclick="openImageUpload(' . $data->id . ')">
+        ';
       })
       ->addColumn('action', function ($data) {
         return '
@@ -64,7 +75,7 @@ class CategoryController extends Controller
     </div>
     ';
       })
-      ->rawColumns(['action'])
+      ->rawColumns(['image','action'])
 
       ->make(true);
     }

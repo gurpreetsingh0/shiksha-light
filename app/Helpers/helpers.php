@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
+use function Psy\debug;
+
 if (!function_exists('successAlert')) {
   function successAlert()
   {
@@ -149,4 +151,60 @@ if (!function_exists('dmyHelper')) {
 function MessageFlashHelper($key, $message)
 {
   Session::flash($key, $message);
+}
+
+
+function prx($arr)
+{
+  echo "<pre>";
+  print_r($arr);
+  die();
+}
+
+function getTopNavCat()
+{
+  $result = DB::table('categories')
+    ->where(['status' => 1])
+    ->get();
+  $arr = [];
+  foreach ($result as $row) {
+    $arr[$row->id]['city'] = $row->name;
+    $arr[$row->id]['parent_id'] = $row->category_id;
+  }
+  // return $arr;
+  $str = buildTreeView($arr, 0);
+  return $str;
+}
+
+$html = '';
+function buildTreeView($arr, $parent, $level = 0, $prelevel = -1)
+{
+  global $html;
+  foreach ($arr as $id => $data) {
+    if ($parent == $data['parent_id']) {
+      
+      if ($level > $prelevel) {
+        if ($html == '') {
+          $html .= '<ul class="nav navbar-nav">';
+        } else {
+          $html .= '<ul class="dropdown-menu">';
+        }
+      }
+
+      if ($level == $prelevel) {
+        $html .= '</li>';
+      }
+      $html .= '<li><a href="#">' . $data['city'] . '<span class="caret"></span></a>';
+      if ($level > $prelevel) {
+        $prelevel = $level;
+      }
+      $level++;
+      buildTreeView($arr, $id, $level, $prelevel);
+      $level--;
+    }
+  }
+  if ($level == $prelevel) {
+    $html .= '</li></ul>';
+  }
+  return $html;
 }

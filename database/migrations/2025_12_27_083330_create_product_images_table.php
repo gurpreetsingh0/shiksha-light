@@ -15,6 +15,7 @@ return new class extends Migration
       $table->id();
       $table->foreignId('product_id')->constrained()->cascadeOnDelete();
       $table->string('product_images')->nullable(); // store file path or name
+      $table->integer('status')->default(1);
       $table->timestamps();
     });
   }

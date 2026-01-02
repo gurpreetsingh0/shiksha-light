@@ -19,9 +19,13 @@ return new class extends Migration
 
       $table->text('short_description')->nullable();
       $table->longText('description')->nullable();
+      $table->string('image')->nullable();
 
       $table->decimal('price', 10, 2);
       $table->decimal('sale_price', 10, 2)->nullable();
+      $table->integer('is_featured')->default(0);
+      $table->integer('is_discounted')->default(0);
+      $table->integer('is_tranding')->default(0);
 
       // $table->integer('stock')->default(0);
       $table->boolean('status')->default(1); // 1=Active, 0=Inactive

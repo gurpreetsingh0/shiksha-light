@@ -15,7 +15,7 @@
 
 
           <div class="modal-body">
-            <form action="{{ route('admin.category.update') }}" method="POST">
+            <form action="{{ route('admin.attribute_option.update') }}" method="POST">
               @csrf
               @method('PATCH')
               <input name="edit_id" type="hidden" class="edit_id">
@@ -24,20 +24,15 @@
                 <input name="name" class="form-control edit_name">
               </div>
 
-              <div class="form-group">
-                <label>Parent Category</label>
-                <select name="category_id" class="edit_category_id form-control">
-                  <option value="">Choose Parent Category</option>
-                  @foreach ($data['categories'] as $item)
-                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Description</label>
-                <textarea name="description" class="form-control edit_description" rows="3"></textarea>
-              </div>
-
+            <div class="form-group">
+              <label>Attribute</label>
+              <select name="attribute_id" class="attribute_id_edit form-control">
+                <option value="">Choose Attribute</option>
+                @foreach ($attributes as $item)
+                  <option value="{{ $item->id }}">{{ $item->name }}</option>
+                @endforeach
+              </select>
+            </div>
 
               <div class="form-group">
                 <label>Status</label>
@@ -48,25 +43,14 @@
                 </select>
               </div>
           </div>
-
-          <!-- IMAGE SELECT BOX -->
-          <div class="form-group" style="margin-left:20px">
-            <label>Category Image</label>
-            <!-- LABEL acts as clickable upload box -->
-            <label for="imageInput" class="image-upload-box">
-              <span class="placeholder-text">Click to upload</span>
-              <img id="previewImage">
-            </label>
-            <!-- REAL file input (NOT hidden attribute) -->
-            <input type="file" name="image" id="imageInput" accept="image/*" class="d-none">
-          </div>
-
-          </form>
-
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Update Category</button>
           </div>
+
+          </form>
+
+ 
 
         </div>
       </div>
@@ -88,19 +72,22 @@
           // Example 1: Open Bootstrap 4 modal
           $('#editModal').modal('show');
           // Example 2: Load data via AJAX (Laravel style)
-          var url = "{{ route('admin.category.edit', ':id') }}"
+          var url = "{{ route('admin.attribute_option.edit', ':id') }}"
           url = url.replace(':id', id);
 
           $.ajax({
             url: url,
             type: 'GET',
             success: function(response) {
+              console.log(response)
+              // alert('test');
               // alert('test edit');
               let data = response.data;
               $('.edit_id').val(data.id);
               $('.edit_name').val(data.name);
-              $('.edit_category_id').val(data.category_id);
-              $('.edit_description').text(data.description);
+              $('.attribute_id_edit').val(data?.attribute_id).change();
+              // $('.edit_category_id').val(data.category_id);
+              // $('.edit_description').text(data.description);
               $('.edit_status').val(data.status);
             },
             error: function(xhr) {

@@ -48,16 +48,16 @@
 
 
       <div class="modal-body">
-        <form id="bannerForm" action="{{ route('admin.banner.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="bannerForm" action="{{ route('admin.brand.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
 
           <div class="form-group">
             <label>Button Text</label>
-            <input placeholder="type here.." type="text" name="btn_text" class="form-control">
+            <input placeholder="type here.." type="btn_link" name="btn_text" class="form-control">
           </div>
           <div class="form-group">
             <label>Button Link</label>
-            <input placeholder="type here.." type="text" name="btn_link" class="form-control">
+            <input placeholder="type here.." type="btn_text" name="btn_link" class="form-control">
           </div>
 
           <!-- IMAGE SELECT BOX -->

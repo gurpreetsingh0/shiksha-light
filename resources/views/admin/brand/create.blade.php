@@ -31,7 +31,7 @@
 </style>
 @endpush
 
-<div class="modal fade" id="addBannerModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-md modal-top" role="document">
     <div class="modal-content">
 
@@ -48,16 +48,12 @@
 
 
       <div class="modal-body">
-        <form id="bannerForm" action="{{ route('admin.banner.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="bannerForm" action="{{ route('admin.brand.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
 
           <div class="form-group">
-            <label>Button Text</label>
-            <input placeholder="type here.." type="text" name="btn_text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label>Button Link</label>
-            <input placeholder="type here.." type="text" name="btn_link" class="form-control">
+            <label>Name</label>
+            <input placeholder="type here.." type="text" name="name" class="form-control">
           </div>
 
           <!-- IMAGE SELECT BOX -->

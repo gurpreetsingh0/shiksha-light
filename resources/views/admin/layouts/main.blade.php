@@ -6,7 +6,7 @@
 	@include('admin.include.head')
 
 </head>
-<body id="app" >
+<body id="app">
     <div class="wrapper">
     	<!-- initiate header-->
     	@include('admin.include.header')

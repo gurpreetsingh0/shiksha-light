@@ -21,7 +21,7 @@ class Variant extends Model
     'mrp',
     'price',
     'stock',
-    'images',
+    'image',
     'status',
   ];
 }

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">    
-    <title>Daily Shop | Home</title>
+    <title>@yield('title')</title>
     <link href="{{asset('front_assets/css/font-awesome.css')}}" rel="stylesheet">
     <link href="{{asset('front_assets/css/bootstrap.css')}}" rel="stylesheet">   
     <link href="{{asset('front_assets/css/jquery.smartmenus.bootstrap.css')}}" rel="stylesheet">
@@ -19,6 +19,36 @@
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     
+
+    <style>
+
+.search-icon-inside form {
+    position: relative;
+    max-width: 400px;
+}
+
+.search-icon-inside input {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+.search-icon-inside i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+.navbar-nav li > a:not(.has-submenu) .caret {
+    display: none;
+}
+
+
+</style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,7 +75,7 @@
   <!-- Start header section -->
   <header id="aa-header">
     <!-- start header top  -->
-    <div class="aa-header-top">
+    {{-- <div class="aa-header-top">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -73,7 +103,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --}}
     <!-- / header top  -->
 
     <!-- start header bottom  -->
@@ -132,12 +162,13 @@
               </div>
               <!-- / cart box -->
               <!-- search box -->
-              <div class="aa-search-box">
-                <form action="">
-                  <input type="text" name="" id="" placeholder="Search here ex. 'man' ">
-                  <button type="submit"><span class="fa fa-search"></span></button>
-                </form>
+              <div class="aa-search-box search-icon-inside">
+                  <form>
+                      <i class="fa fa-search"></i>
+                      <input type="text" placeholder="Search Shiksha Lights..." />
+                  </form>
               </div>
+
               <!-- / search box -->             
             </div>
           </div>
@@ -162,17 +193,18 @@
             </button>          
           </div>
           <div class="navbar-collapse collapse">
+
+              {!!getTopNavCat()!!}
+            
             <!-- Left nav -->
+            {{-- 
             <ul class="nav navbar-nav">
               <li><a href="{{url('/')}}">Home</a></li>
-              <li><a href="#">Men <span class="caret"></span></a>
+
+
+              <li>
+                <a href="#">Men <span class="caret"></span></a>
                 <ul class="dropdown-menu">                
-                  <li><a href="#">Casual</a></li>
-                  <li><a href="#">Sports</a></li>
-                  <li><a href="#">Formal</a></li>
-                  <li><a href="#">Standard</a></li>                                                
-                  <li><a href="#">T-Shirts</a></li>
-                  <li><a href="#">Shirts</a></li>
                   <li><a href="#">Jeans</a></li>
                   <li><a href="#">Trousers</a></li>
                   <li><a href="#">And more.. <span class="caret"></span></a>
@@ -184,7 +216,7 @@
                   </li>
                 </ul>
               </li>
-              <li><a href="#">Women <span class="caret"></span></a>
+               <li><a href="#">Women <span class="caret"></span></a>
                 <ul class="dropdown-menu">  
                   <li><a href="#">Kurta & Kurti</a></li>                                                                
                   <li><a href="#">Trousers</a></li>              
@@ -271,12 +303,17 @@
                   <li><a href="javascript:void(0)">404 Page</a></li>                
                 </ul>
               </li>
-            </ul>
+            </ul>  --}}
+
+
           </div><!--/.nav-collapse -->
         </div>
       </div>       
     </div>
   </section>
+
+
+
   <!-- / menu -->
   <!-- Start slider -->
   
@@ -401,6 +438,7 @@
     </div><!-- /.modal-dialog -->
   </div>    
 
+  @stack('scripts')
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="{{asset('front_assets/js/bootstrap.js')}}"></script>  

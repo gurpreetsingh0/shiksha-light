@@ -1,16 +1,16 @@
 @extends('admin.layouts.main')
-@section('title', 'Category')
+@section('title', 'Attribute')
 @section('content')
 @include('admin.include.message')
-    <div class="container-fluid">
+     <div class="container-fluid">
        <div class="page-header">
         <div class="row align-items-end">
           <div class="col-lg-8">
             <div class="page-header-title">
-              <i class="ik ik-layers bg-primary"></i>
+              <i class="ik ik-sliders bg-blue"></i>
               <div class="d-inline">
-                <h5>Category</h5>
-                <span>View, delete and update Category</span>
+                <h5>Attribute Option</h5>
+                <span>View, delete and update Attribute Option</span>
               </div>
             </div>
           </div>
@@ -21,7 +21,7 @@
                   <a href="/dashboard"><i class="ik ik-home"></i></a>
                 </li>
                 <li class="breadcrumb-item">
-                  <a href="#">Category</a>
+                  <a href="#">Attribute Option</a>
                 </li>
               </ol>
             </nav>
@@ -29,9 +29,7 @@
         </div>
       </div>
       <div class="row">
-      @include('admin.category.create',['modal_header'=>'Add Category','data'=>$data,'heder_font'=>'ik-layers'])
-      @include('admin.category.edit',['modal_header'=>'Edit Category','data'=>$data,'heder_font'=>'ik-layers'])
-
+      @include('admin.attribute_option.create',['attributes',$attributes])
         <!-- list layout 1 start -->
         <div class="col-md-12">
           <div class="card">
@@ -50,13 +48,14 @@
                 </div>
               </div>
               <div class="col col-sm-6">
-                @include('admin.category.search')
+              @include('admin.attribute_option.search')
+              @include('admin.attribute_option.edit',['modal_header'=>'Edit Option','heder_font'=>'ik-tag',['attributes',$attributes]])
               </div>
               <div class="col col-sm-5">
                 <div class="card-options text-right">
                   <a href="javascript:void(0)" class="btn btn-outline-primary btn-semi-rounded" data-toggle="modal"
                     data-target="#addBannerModal">
-                    Add Category
+                    Add Attribute
                   </a>
                 </div>
               </div>
@@ -64,16 +63,19 @@
             <div class="card-body">
               <table id="my-datatable" class="table">
                 <thead>
-                    <tr class="text-start text-dark-400 fw-bold fs-7 text-uppercase gs-0">
-                      <th>No</th>
-                      <th>Image</th>
-                      <th>Name</th>
-                      <th>Slug</th>
-                      <th>Description</th>
-                      <th>Parent Category</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
+                  <tr>
+                    <th class="nosort" width="10">
+                      <label class="custom-control custom-checkbox m-0">
+                        <input type="checkbox" class="custom-control-input" id="selectall" name=""
+                          value="option2">
+                        <span class="custom-control-label">&nbsp;</span>
+                      </label>
+                    </th>
+                     <th>Name</th>
+                     <th>Attribute</th>
+                     <th>Status</th>
+                    <th>Action</th>
+                  </tr>
                 </thead>
                 <tbody>
                 </tbody>
@@ -85,6 +87,6 @@
     </div>
     <div class="modal fade edit-layout-modal pr-0" id="productView" tabindex="-1" role="dialog"
       aria-labelledby="productViewLabel" aria-hidden="true">
-    @include('admin.category.list') 
-    @include('admin.category.delete')
+    @include('admin.attribute_option.list') 
+    @include('admin.attribute_option.delete')
 @endsection

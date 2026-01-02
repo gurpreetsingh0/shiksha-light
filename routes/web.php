@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\AttributeOptionController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\PermissionController;
@@ -17,6 +20,8 @@ $back_end_middleware = ['auth', 'permission:admin'];
 
 Route::middleware($front_back_middleware)->group(function () {
   Route::get('/', [FrontController::class, 'index'])->name('front.index');
+  Route::get('/product/{slug}', [FrontController::class, 'product'])->name('front.product');
+  Route::post('/add-to-cart', [FrontController::class, 'AddToCart'])->name('front.add_to_cart');
 });
 
 Route::middleware($back_end_middleware)->group(function () {
@@ -113,8 +118,33 @@ Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
 });
 
 
+Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
+  Route::get('/brand', [BrandController::class, 'index'])->name('admin.brand');
+  Route::post('/brand/store', [BrandController::class, 'store'])->name('admin.brand.store');
+  Route::get('/brand/get-list', [BrandController::class, 'getBrandList'])->name('admin.brand.list');
+  Route::delete('/brand/delete/{id}', [BrandController::class, 'delete'])->name('admin.brand.delete');
+});
+
+#attribute
+Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
+  Route::get('/attribute', [AttributeController::class, 'index'])->name('admin.attribute');
+  Route::post('/attribute/store', [AttributeController::class, 'store'])->name('admin.attribute.store');
+  Route::get('/attribute/get-list', [AttributeController::class, 'getList'])->name('admin.attribute.list');
+  Route::delete('/attribute/delete/{id}', [AttributeController::class, 'delete'])->name('admin.attribute.delete');
+  Route::get('/attribute/edit/{id}', [AttributeController::class, 'edit'])->name('admin.attribute.edit');
+  Route::patch('/attribute/update', [AttributeController::class, 'update'])->name('admin.attribute.update');
+});
 
 
+Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
+  Route::get('/attribute_option', [AttributeOptionController::class, 'index'])->name('admin.attribute_option');
+  Route::post('/attribute_option/store', [AttributeOptionController::class, 'store'])->name('admin.attribute_option.store');
+  Route::get('/attribute_option/get-list', [AttributeOptionController::class, 'getList'])->name('admin.attribute_option.list');
+  Route::delete('/attribute_option/delete/{id}', [AttributeOptionController::class, 'delete'])->name('admin.attribute_option.delete');
+  #edition route
+  Route::get('/attribute_option/edit/{id}', [AttributeOptionController::class, 'edit'])->name('admin.attribute_option.edit');
+  Route::patch('/attribute_option/update', [AttributeOptionController::class, 'update'])->name('admin.attribute_option.update');
+});
 
 
 Route::get('/pos', function () {

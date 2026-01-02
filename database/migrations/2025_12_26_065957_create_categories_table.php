@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique(); 
+            $table->integer('is_home')->default(0);
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')
             ->on('categories')

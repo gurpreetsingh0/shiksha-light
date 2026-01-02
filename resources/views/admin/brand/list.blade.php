@@ -11,7 +11,7 @@
           "serverSide": true,
           'serverMethod': 'GET',
           "ajax": {
-            "url": "{{ route('admin.category.get.list') }}",
+            "url": "{{ route('admin.brand.list') }}",
             "data": {
               "tellecaller": tellecaller,
               "status": status,
@@ -21,9 +21,10 @@
               "not_contactable": not_contactable
             }
           },
-          "columns": [{
-              data: 'DT_RowIndex',
-              name: 'DT_RowIndex'
+          "columns": [
+            {
+              data: 'checkbox',
+              name: 'checkbox'
             },
             {
               data: 'image',
@@ -33,26 +34,19 @@
               data: 'name',
               name: 'name'
             },
-            {
-              data: 'slug',
-              name: 'slug'
-            },
-            {
-              data: 'description',
-              name: 'description'
-            },
-            {
-              data: 'parent',
-              name: 'parent'
-            },
+ 
             {
               data: 'status',
               name: 'status'
             },
+            
             {
               data: 'action',
               name: 'action',
+              orderable: false,
+              searchable: true
             }
+
           ],
           "dom": "<'row'<'col-sm-6'><'col-sm-6'f>>" +
             "<'row'<'col-sm-12'tr>>" +
@@ -86,16 +80,3 @@
         <script src="{{ asset('plugins/ammap3/ammap/maps/js/usaLow.js') }}"></script>
         <script src="{{ asset('js/product.js') }}"></script> --}}
   @endpush
-
-
-
-
-
-
-
-
-
-
-
-
-

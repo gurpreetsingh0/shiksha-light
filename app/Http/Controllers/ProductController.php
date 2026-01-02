@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attribute;
+use App\Models\AttributeOption;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
@@ -10,48 +12,64 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
+
 class ProductController extends Controller
 {
-    public function index(){
-      return view('admin.product.index');
-    }
-    public function getProductList(){
-      $search['value']='jo';
-      $query = Product::get();
-      return DataTables::of($query)
-      ->addColumn('category',function($data){
-        return ($data->category)?$data->category->name:"--";
+  public function index()
+  {
+    return view('admin.product.index');
+  }
+  public function getProductList()
+  {
+    $search['value'] = 'jo';
+    $query = Product::get();
+    return DataTables::of($query)
+      ->addColumn('category', function ($data) {
+        return ($data->category) ? $data->category->name : "--";
       })
-      ->addColumn('action',function($data){
+      ->addColumn('action', function ($data) {
         return '<a href="#productView" data-toggle="modal" data-target="#productView"><i class="ik ik-eye f-16 mr-15"></i></a>
 		                    			<a href="/products/9/edit"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
 		                    			<a href="#!"><i class="ik ik-trash-2 f-16 text-red"></i></a>';
       })
-      ->addColumn('checkbox',function($data){
+      ->addColumn('checkbox', function ($data) {
         return '<label class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input select_all_child" id="" name="" value="option2">
           <span class="custom-control-label">&nbsp;</span>
         </label>';
       })
-      ->rawColumns(['checkbox','action'])
+      ->rawColumns(['checkbox', 'action'])
       ->make(true);
-    }
+  }
 
 
-    public function create(){
-      $data['categories']=Category::where('status',1)->get();
-      return view('admin.product.create',compact('data'));
-    }
+  public function create()
+  {
+
+     $data['wattages'] = AttributeOption::whereHas('attribute',function($q){
+        $q->where('slug','wattage');
+    })->get();
+
+     $data['categories'] = Category::where('status', 1)->get();
+    return view('admin.product.create', compact('data'));
+  }
 
 
 
 
   public function store(Request $request)
   {
+    // return $request->all();
     DB::beginTransaction();
 
+    $product_image_path = null;
+
     try {
-      // 1. Store Product
+      if ($request->hasFile('images')) {
+        $product_image_path = $request->file('images')
+          ->store('products', 'public');
+      }
+
       $product = Product::create([
         'title'             => $request->title,
         'slug'              => Str::slug($request->title),
@@ -60,7 +78,11 @@ class ProductController extends Controller
         'description'       => $request->description,
         'price'             => $request->price ?? 0,
         'sale_price'        => $request->sale_price,
+        'is_featured'       => $request->is_featured,
+        'is_discounted'     => $request->is_discounted,
+        'is_tranding'       => $request->is_tranding,
         'status'            => 1,
+        'image'             => $product_image_path, // null or path
       ]);
 
       // 2. Store Product Images (multiple)
@@ -74,22 +96,36 @@ class ProductController extends Controller
               'product_id'    => $product->id,
               'product_images' => $path,
             ]);
-          }
+          }    
         }
       }
 
       // 3. Store Variants (one image per variant)
       if ($request->has('variants')) {
-        foreach ($request->variants as $variant) {
-          $variantImage = null;
+        foreach ($request->variants as $index =>$variant) {
 
+
+          // $variantImage = null;
+
+          // $variantImages = $request->file("variants.$index.images", []);
+
+          // if (!empty($variantImages)) {
+          //   $variantImage = $variantImages[0]->store('variants', 'public');
+          // }
+
+          
+          $variantImage = null;
+    
           // Handle variant images (array input)
           if (isset($variant['images']) && is_array($variant['images'])) {
-            $firstImage = $variant['images'][0] ?? null;
+
+             $firstImage = $variant['images'][0] ?? null;
             if ($firstImage instanceof \Illuminate\Http\UploadedFile) {
               $variantImage = $firstImage->store('variants', 'public');
             }
           }
+
+          // return "outer image;";
 
           Variant::create([
             'product_id'     => $product->id,
@@ -111,7 +147,7 @@ class ProductController extends Controller
             'stock'          => $variant['stock'] ?? 0,
 
             'image'          => $variantImage,
-            'status'         => $variant['status'] ?? 1,
+            'status'         => 1,
           ]);
         }
       }
@@ -123,6 +159,7 @@ class ProductController extends Controller
         ->with('success', 'Product created successfully');
     } catch (\Exception $e) {
       DB::rollBack();
+      return $e->getMessage();
       // You can log $e->getMessage() if needed
       return back()->with('error', 'Something went wrong: ' . $e->getMessage());
     }
