@@ -80,12 +80,12 @@
                </div> 
 
 
-              <div class="nav-item {{ ($segment1 == 'file-manager') ? 'active open' : '' }}">
+              {{-- <div class="nav-item {{ ($segment1 == 'file-manager') ? 'active open' : '' }}">
                     <a href="{{route('admin.attribute')}}"><i class="ik ik-sliders"></i><span>{{ __('Attribute')}}</span></a>
-                  {{-- <div class="submenu-content">
+                  <div class="submenu-content">
                             <a href="{{route('admin.banner')}}" class="menu-item {{ ($segment1 == 'customers') ? 'active' : '' }}">{{ __('List')}}</a>
-                  </div> --}}
-               </div> 
+                  </div>
+               </div>  --}}
 
                {{-- #attribute option --}}
               {{-- <div class="nav-item {{ ($segment1 == 'file-manager') ? 'active open' : '' }}">
