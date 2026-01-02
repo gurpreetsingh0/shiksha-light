@@ -88,12 +88,12 @@
                </div> 
 
                {{-- #attribute option --}}
-              <div class="nav-item {{ ($segment1 == 'file-manager') ? 'active open' : '' }}">
+              {{-- <div class="nav-item {{ ($segment1 == 'file-manager') ? 'active open' : '' }}">
                     <a href="{{route('admin.attribute_option')}}"><i class="ik ik-tag"></i><span>{{ __('Attribute Option')}}</span></a>
-                  {{-- <div class="submenu-content">
+                  <div class="submenu-content">
                             <a href="{{route('admin.banner')}}" class="menu-item {{ ($segment1 == 'customers') ? 'active' : '' }}">{{ __('List')}}</a>
-                  </div> --}}
-               </div> 
+                  </div>
+               </div>  --}}
 
                 {{-- @can('manage_customers')
                     <div class="nav-item {{ ($segment1 == 'customer' || $segment1 == 'customers') ? 'active open' : '' }} has-sub">
