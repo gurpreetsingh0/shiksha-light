@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
- use Illuminate\Http\Request;
+use App\Models\Cart;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use function Laravel\Prompts\table;
@@ -108,6 +110,8 @@ foreach($result['home_featured_product'] as $list1){
       }
     }
 
+    // return $result['product'];
+
 
 
 
@@ -138,11 +142,97 @@ foreach($result['home_featured_product'] as $list1){
   }
 
   public function AddToCart(Request $request){
+
+    
+    if($request->session()->has('FRONT_USER_LOGIN')){
+        $uid=$request->session()->get('FRONT_USER_LOGIN');
+        $user_type = "Reg";
+    }else{
+      $uid = getUserTempId();
+      $user_type = "Not-Reg";
+    }
+
+  
+
+
     $pqty = $request->pqty;
     $wattage = $request->wattage;
     $product_id = $request->product_id;
+    $user_id = Auth::user()->id;
+
+    $result = DB::table('variants')->where(['product_id'=>$product_id,'wattage'=>$wattage])->get();
+    $product_attr_id = $result[0]->id;
+
+    #update if get this value just update quantity;
+     $check = DB::table('carts')
+     ->where(['user_id'=> $user_id, 'product_id'=>$product_id,'product_attr_id'=>$product_attr_id])
+     ->get();
+     if(isset($check[0])){
+        $update_id = $check[0]->id;
+
+      if ($pqty == 0) {
+        DB::table('carts')
+          ->where(['id' => $update_id])
+          ->delete();
+        $msg = "removed";
+      } else {
+        DB::table('carts')
+          ->where(['id' => $update_id])
+          ->update(['qty' => $pqty]);
+        $msg = "updated";
+      }
+
+
+        //  DB::table('carts')
+        // ->where(['id' => $update_id])
+        // ->update(['qty'=> $pqty]);
+        // $msg = "updated"; 
+     }else{
+
+      $id=DB::table('carts')->insertGetId([
+          'user_id'=> $user_id,
+          'product_id'=> $product_id,
+          'product_attr_id'=> $product_attr_id,
+          'qty'=> $pqty
+      ]);
+      $msg = "added";
+
+
+     }
+
+       return response()->json(['msg'=>$msg]);
+
+    // Cart::create();
     // return $request->all();
   }
+
+  public function cart(Request $request)
+  {
+    // if ($request->session()->has('FRONT_USER_LOGIN')) {
+    //   $uid = $request->session()->get('FRONT_USER_LOGIN');
+    //   $user_type = "Reg";
+    // } else {
+    //   $uid = getUserTempId();
+    //   $user_type = "Not-Reg";
+    // }
+
+    $user_id = Auth::user()->id;
+     $result['list'] = DB::table('carts')
+      ->leftJoin('products', 'products.id', '=', 'carts.product_id')
+      ->leftJoin('variants', 'variants.id', '=', 'carts.product_attr_id')
+
+      // ->leftJoin('sizes', 'sizes.id', '=', 'products_attr.size_id')//no need
+      // ->leftJoin('colors', 'colors.id', '=', 'products_attr.color_id')  //no need
+      ->where(['user_id' => $user_id])
+      // ->where(['user_type' => "registerd"])
+      // ->select('carts.qty', 'products.name', 'products.image', '', 'colors.color', 'products_attr.price', 'products.slug', 'products.id as pid', 'products_attr.id as attr_id')
+      ->select('carts.qty', 'products.title', 'products.image','variants.price', 'products.slug', 'variants.id as attr_id', 'products.id as pid','variants.wattage')
+      ->get();
+
+      // return $result;
+    return view('front.cart', $result);
+  }
+  
 
  
 }

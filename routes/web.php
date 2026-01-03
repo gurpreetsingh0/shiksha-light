@@ -5,6 +5,7 @@ use App\Http\Controllers\AttributeOptionController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
@@ -22,6 +23,9 @@ Route::middleware($front_back_middleware)->group(function () {
   Route::get('/', [FrontController::class, 'index'])->name('front.index');
   Route::get('/product/{slug}', [FrontController::class, 'product'])->name('front.product');
   Route::post('/add-to-cart', [FrontController::class, 'AddToCart'])->name('front.add_to_cart');
+
+  #cart route;
+  Route::get('/cart', [FrontController::class, 'cart'])->name('front.view.cart');
 });
 
 Route::middleware($back_end_middleware)->group(function () {
@@ -105,6 +109,8 @@ Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
 Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
   Route::get('/product', [ProductController::class, 'index'])->name('admin.product');
   Route::get('/product/create', [ProductController::class, 'create'])->name('admin.product.create');
+  Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.product.edit');
+  Route::patch('/product/update/{id}', [ProductController::class, 'update'])->name('admin.product.update');
   Route::post('/product/store', [ProductController::class, 'store'])->name('admin.product.store');
   Route::get('/product/get-list', [ProductController::class, 'getProductList'])->name('admin.product.list');
 });
@@ -144,6 +150,17 @@ Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
   #edition route
   Route::get('/attribute_option/edit/{id}', [AttributeOptionController::class, 'edit'])->name('admin.attribute_option.edit');
   Route::patch('/attribute_option/update', [AttributeOptionController::class, 'update'])->name('admin.attribute_option.update');
+});
+
+
+Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
+  Route::get('/color', [ColorController::class, 'index'])->name('admin.color');
+  Route::post('/color/store', [ColorController::class, 'store'])->name('admin.color.store');
+  Route::get('/color/get-list', [ColorController::class, 'getList'])->name('admin.color.list');
+  Route::delete('/color/delete/{id}', [ColorController::class, 'delete'])->name('admin.color.delete');
+  #edition route
+  Route::get('/color/edit/{id}', [ColorController::class, 'edit'])->name('admin.color.edit');
+  Route::patch('/color/update', [ColorController::class, 'update'])->name('admin.color.update');
 });
 
 

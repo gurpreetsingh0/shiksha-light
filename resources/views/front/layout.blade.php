@@ -75,7 +75,7 @@
   <!-- Start header section -->
   <header id="aa-header">
     <!-- start header top  -->
-    {{-- <div class="aa-header-top">
+    <div class="aa-header-top">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -94,7 +94,7 @@
                 <ul class="aa-head-top-nav-right">
                   <li><a href="javascript:void(0)">My Account</a></li>
                   
-                  <li class="hidden-xs"><a href="javascript:void(0)">My Cart</a></li>
+                  <li class="hidden-xs"><a href="{{route('front.view.cart')}}">My Cart</a></li>
                   <li class="hidden-xs"><a href="javascript:void(0)">Checkout</a></li>
                   <li><a href="" data-toggle="modal" data-target="#login-modal">Login</a></li>
                 </ul>
@@ -103,7 +103,7 @@
           </div>
         </div>
       </div>
-    </div> --}}
+    </div>
     <!-- / header top  -->
 
     <!-- start header bottom  -->

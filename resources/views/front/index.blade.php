@@ -138,7 +138,10 @@
                         <li>
                           <figure>
                             <a class="aa-product-img" href="{{url('product/'.$productArr->slug)}}"><img src="{{asset('storage/'.$productArr->image)}}" alt="{{$productArr->title}}"></a>
-                            <a class="aa-add-card-btn" href="{{url('product/'.$productArr->slug)}}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+
+                            <!--Add To Cart Button In Index -->
+                            <a class="aa-add-card-btn" href="javascript:void(0);" onclick="home_add_to_cart('{{$productArr->id}}','{{$home_product_attr[$productArr->id][0]->wattage}}')"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                             {{-- <a class="aa-add-card-btn" href="{{url('product/'.$productArr->slug)}}" onclick="add_to_cart('{{$product[0]->id}}','{{$product_attr[$product[0]->id][0]->wattage}}')><span class="fa fa-shopping-cart"></span>Add To Cart</a> --}}
                             <figcaption>
                               <h4 class="aa-product-title"><a href="{{url('product/'.$productArr->slug)}}">{{$productArr->title}}</a></h4>
                               <span class="aa-product-price">Rs {{$home_product_attr[$productArr->id][0]->price}}</span><span class="aa-product-price"><del>Rs {{$home_product_attr[$productArr->id][0]->mrp}}</del></span>
@@ -352,5 +355,14 @@
     </div>
   </section>
   <!-- / Client Brand -->
+
+ {{-- <input type="text" id="pqty" name="pqty"/> --}}
+ {{-- <form id="frmAddToCart">
+    <input type="text" id="size_id" name="size_id"/>
+    <input type="text" id="set_wattage_value" name="wattage"/>
+    <input type="text" id="pqty" name="pqty"/>
+    <input type="text" id="product_id" name="product_id"/>           
+    @csrf
+  </form> --}}
 
 @endsection

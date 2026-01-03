@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('colors', function (Blueprint $table) {
             $table->id();
-            $table->string('product_id');
-            $table->string('product_attr_id');
-            $table->integer('user_id');
-            $table->string('user_type')->nullable(); //register // not register
-            $table->integer('qty');
+            $table->string('name');  //Color,Size,Pattern
+            $table->string('slug');
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('colors');
     }
 };

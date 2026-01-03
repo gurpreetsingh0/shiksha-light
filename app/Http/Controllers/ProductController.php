@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -29,8 +30,8 @@ class ProductController extends Controller
       })
       ->addColumn('action', function ($data) {
         return '<a href="#productView" data-toggle="modal" data-target="#productView"><i class="ik ik-eye f-16 mr-15"></i></a>
-		                    			<a href="/products/9/edit"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
-		                    			<a href="#!"><i class="ik ik-trash-2 f-16 text-red"></i></a>';
+        <a href="'.route('admin.product.edit',$data->id).'"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
+        <a href="#!"><i class="ik ik-trash-2 f-16 text-red"></i></a>';
       })
       ->addColumn('checkbox', function ($data) {
         return '<label class="custom-control custom-checkbox">
@@ -46,9 +47,9 @@ class ProductController extends Controller
   public function create()
   {
 
-     $data['wattages'] = AttributeOption::whereHas('attribute',function($q){
-        $q->where('slug','wattage');
-    })->get();
+    //  $data['wattages'] = AttributeOption::whereHas('attribute',function($q){
+    //     $q->where('slug','wattage');
+    // })->get();
 
      $data['categories'] = Category::where('status', 1)->get();
     return view('admin.product.create', compact('data'));
@@ -164,4 +165,116 @@ class ProductController extends Controller
       return back()->with('error', 'Something went wrong: ' . $e->getMessage());
     }
   }
+
+  public function edit($id){
+    $data = Product::with(['category', 'gallary_images','variants'])->find($id);
+    $data['categories'] = Category::where('status', 1)->get();
+    //  prx($data['product']);
+    return view('admin.product.edit',compact('data'));
+  }
+
+  public function update(Request $request, $id)
+  {
+
+    // return $id;
+    DB::beginTransaction();
+
+    try {
+
+      $product = Product::findOrFail($id);
+
+      /* ---------- MAIN PRODUCT IMAGE ---------- */
+      $product_image_path = $product->image;
+
+      if ($request->hasFile('images')) {
+        if ($product->image && Storage::disk('public')->exists($product->image)) {
+          Storage::disk('public')->delete($product->image);
+        }
+
+        $product_image_path = $request->file('images')
+          ->store('products', 'public');
+      }
+
+      /* ---------- UPDATE PRODUCT ---------- */
+      $product->update([
+        'title'             => $request->title,
+        'slug'              => Str::slug($request->title),
+        'category_id'       => $request->category_id,
+        'short_description' => $request->short_description,
+        'description'       => $request->description,
+        'price'             => $request->price ?? 0,
+        'sale_price'        => $request->sale_price,
+        'is_featured'       => $request->is_featured,
+        'is_discounted'     => $request->is_discounted,
+        'is_tranding'       => $request->is_tranding,
+        'image'             => $product_image_path,
+      ]);
+
+      /* ---------- PRODUCT GALLERY IMAGES ---------- */
+      if ($request->hasFile('product_images')) {
+        foreach ($request->file('product_images') as $image) {
+          if ($image->isValid()) {
+            ProductImage::create([
+              'product_id'     => $product->id,
+              'product_images' => $image->store('products', 'public'),
+            ]);
+          }
+        }
+      }
+
+      /* ---------- VARIANTS ---------- */
+      // SIMPLE & SAFE: remove old variants and re-insert
+      $product->variants()->delete();
+
+      if ($request->has('variants')) {
+        foreach ($request->variants as $index => $variant) {
+
+          $variantImage = null;
+
+          // Handle variant images (first image only — same as store)
+          if (isset($variant['images']) && is_array($variant['images'])) {
+            $firstImage = $variant['images'][0] ?? null;
+            if ($firstImage instanceof \Illuminate\Http\UploadedFile) {
+              $variantImage = $firstImage->store('variants', 'public');
+            }
+          }
+
+          Variant::create([
+            'product_id'     => $product->id,
+            'catalog_number' => $variant['catalog_no'] ?? null,
+            'sku'            => $variant['sku'] ?? null,
+
+            'wattage'        => $variant['wattage'] ?? null,
+            'voltage'        => $variant['voltage'] ?? null,
+            'dimension'      => $variant['dimension'] ?? null,
+            'material'       => $variant['material'] ?? null,
+            'color'          => $variant['color'] ?? null,
+            'weight'         => $variant['weight'] ?? null,
+
+            'outer_dia'      => $variant['outer_dia'] ?? null,
+            'inner_cut'      => $variant['inner_cut'] ?? null,
+
+            'mrp'            => $variant['mrp'] ?? null,
+            'price'          => $variant['price'] ?? null,
+            'stock'          => $variant['stock'] ?? 0,
+
+            'image'          => $variantImage,
+            'status'         => 1,
+          ]);
+        }
+      }
+
+      DB::commit();
+
+      return redirect()
+        ->route('admin.product')
+        ->with('success', 'Product updated successfully');
+    } catch (\Exception $e) {
+        return $e;
+      DB::rollBack();
+      return back()->with('error', 'Something went wrong: ' . $e->getMessage());
+    }
+  }
+
+  
 }

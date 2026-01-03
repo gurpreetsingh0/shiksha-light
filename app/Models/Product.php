@@ -26,4 +26,16 @@ class Product extends Model
     return $this->belongsTo(Category::class);
   }
 
+  // One Product has many gallery images
+  public function gallary_images()
+  {
+    return $this->hasMany(ProductImage::class);
+  }
+  public function variants()
+  {
+    return $this->hasMany(Variant::class);
+  }
+
+  
+
 }

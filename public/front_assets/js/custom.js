@@ -357,3 +357,147 @@ jQuery(function($){
     
 });
 
+
+
+
+
+// add to cart in product page 
+//when user click on wattage than sent value image dynamic and will set wattage;
+function change_product_wattage_image(img, wattage) {
+    $(".simpleLens-big-image-container").html(
+        `<a data-lens-image=${img} class="simpleLens-lens-image"><img src=${img} class="simpleLens-big-image"></a>`
+    );
+    $("#wattage").val(wattage);
+    // alert(wattage)
+}
+
+
+// store data in data base
+function add_to_cart(product_id, wattage_str) {
+
+  var wattage = $("#wattage").val();
+
+  if (wattage_str == 0) {
+    wattage ="no"; 
+  }
+     $("#product_id").val(product_id);
+     $("#pqty").val(jQuery("#qty").val());
+
+
+  
+  if (wattage == "") {
+      jQuery("#add_to_cart_msg").html(
+          '<div class="alert alert-danger fade in alert-dismissible mt10"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>Please select size</div>'
+      );
+  } else {
+      jQuery.ajax({
+          url: "/add-to-cart",
+          data: jQuery("#frmAddToCart").serialize(),
+          type: "post",
+          success: function (result) {
+              alert("Product " + result.msg);
+          },
+      });
+  }
+    // alert(product_attr_id);
+}
+
+
+
+
+
+function updateQty(pid, wattage, attr_id, price) { 
+  jQuery("#wattage").val(wattage);
+  var qty = jQuery("#qty" + attr_id).val();
+  jQuery("#qty").val(qty);
+  add_to_cart(pid, wattage);
+  jQuery("#total_price_" + attr_id).html("Rs " + qty * price);
+}
+
+
+
+function deleteCartProduct(pid, wattage, attr_id) {
+
+  // alert(pid);
+    jQuery("#wattage").val(wattage);
+    jQuery("#qty").val(0);
+    add_to_cart(pid, wattage);
+    //jQuery('#total_price_'+attr_id).html('Rs '+qty*price);
+    jQuery("#cart_box" + attr_id).hide();
+}
+
+
+
+
+
+
+
+
+// function home_add_to_cart(id, wattage) {
+//     var wattage_field_value = $("#set_wattage_value").val(wattage);
+//      $("#product_id").val(id);
+//      $("#pqty").val(1);
+
+//   jQuery.ajax({
+//       url: "/add-to-cart",
+//       data: jQuery("#frmAddToCart").serialize(),
+//       type: "post",
+//       success: function (result) {
+//           alert("Product " + result.msg);
+//       },
+//   });
+  
+  
+
+    // jQuery("#color_id").val(color_str_id);
+    // jQuery("#size_id").val(size_str_id);
+    // add_to_cart(id, size_str_id, color_str_id);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function add_to_cart(id, size_str_id, color_str_id) {
+//     jQuery("#add_to_cart_msg").html("");
+//     var color_id = jQuery("#color_id").val();
+//     var size_id = jQuery("#size_id").val();
+
+//     if (size_str_id == 0) {
+//         size_id = "no";
+//     }
+//     if (color_str_id == 0) {
+//         color_id = "no";
+//     }
+//     if (size_id == "" && size_id != "no") {
+//         jQuery("#add_to_cart_msg").html(
+//             '<div class="alert alert-danger fade in alert-dismissible mt10"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>Please select size</div>'
+//         );
+//     } else if (color_id == "" && color_id != "no") {
+//         jQuery("#add_to_cart_msg").html(
+//             '<div class="alert alert-danger fade in alert-dismissible mt10"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>Please select color</div>'
+//         );
+//     } else {
+//         jQuery("#product_id").val(id);
+//         jQuery("#pqty").val(jQuery("#qty").val());
+//         jQuery.ajax({
+//             url: "/add_to_cart",
+//             data: jQuery("#frmAddToCart").serialize(),
+//             type: "post",
+//             success: function (result) {
+//                 alert("Product " + result.msg);
+//             },
+//         });
+//     }
+// }

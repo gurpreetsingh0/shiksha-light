@@ -39,26 +39,19 @@
                       </div>
                       <div class="simpleLens-thumbnails-container">
                         <!-- Gallary Image Loop Start -->
-
-
-
                          @if(isset($product_images[$product[0]->id][0]))
-
                         @foreach ($product_images[$product[0]->id] as $list)
                            <a data-big-image="{{asset('storage/'.$list->product_images)}}" data-lens-image="{{asset('storage/'.$list->product_images)}}" class="simpleLens-thumbnail-wrapper" href="#">
                             <img src="{{asset('storage/'.$list->product_images)}}" width="100px">
                           </a>  
                       @endforeach
-                      @endif
- 
-                          
+                      @endif 
                          <!-- Gallary Image loop End --> 
-                          
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- Modal view content -->
+                <!--Product Modal view content -->
                 <div class="col-md-7 col-sm-7 col-xs-12">
                   <div class="aa-product-view-content">
                     <h3>{{$product[0]->title}}</h3>
@@ -71,54 +64,31 @@
                        @if(true)
                        <p class="lead_time">
                         Mention Day How many take will it to delever 2 or 3 days
-                       {{-- {{$product[0]->lead_time}} --}}
+                        {{-- {{$product[0]->lead_time}} --}}
                        </p>
                        @endif 
-
                     </div>
                     <p>{!!$product[0]->short_description!!}</p>
-
                     {{-- #variant --}}
+                    @if($product_attr[$product[0]->id][0])
                     <h4>Wattage</h4>
                     <div class="aa-prod-view-size">
-
-
                      @foreach($product_attr[$product[0]->id] as $attr) 
-
-                     {{-- @dd($attr) --}}
-
                      @if($attr->wattage!='') 
                     <a href="javascript:void(0)" 
                       onclick="change_product_wattage_image('{{ asset('storage/'.$attr->image) }}','{{$attr->wattage}}')">
                       {{ $attr->wattage }}
                     </a>
                       @endif  
-                      @endforeach  
+                      @endforeach     
                     </div>
-                    {{-- <h4>Voltage</h4>  --}}
-                    {{-- <div class="aa-color-tag"> --}}
-                    {{-- <div class="aa-prod-view-size">
-                      @foreach($product_attr[$product[0]->id] as $attr)  
-                      @if($attr->voltage!='')
-                      <a href="javascript:void(0)" class="aa-color-{{strtolower($attr->voltage)}}">{{$attr->voltage}}</a>
-                      @endif  
-                      @endforeach  
-                    </div> --}}
-
-
- 
+                    @endif 
                     <div class="aa-prod-quantity">
                       <form action="">
                         <select id="qty" name="">
                           @for ($i = 1; $i <=10; $i++)
                            <option value={{$i}} @if($i=='1')selected="1" @endif  value="0">{{$i}}</option>
                           @endfor
-
-                           {{-- <option value="1">2</option>
-                          <option value="2">3</option>
-                          <option value="3">4</option>
-                          <option value="4">5</option>
-                          <option value="5">6</option> --}}
                         </select>
                       </form>
                       <p class="aa-prod-category">
@@ -128,8 +98,13 @@
                     <div class="aa-prod-view-bottom">
                       <a class="aa-add-to-cart-btn" href="javascript:void(0)" onclick="add_to_cart('{{$product[0]->id}}','{{$product_attr[$product[0]->id][0]->wattage}}')">Add To Cart</a><!--(pass_value_project_id,pass_value_to_check_value exit or not) -->
                     </div>
+                   <div id="add_to_cart_msg"></div>
+
                   </div>
                 </div>
+
+
+
               </div>
             </div>
 
@@ -256,7 +231,7 @@
 
     <form id="frmAddToCart">
     {{-- <input type="text" id="size_id" name="size_id"/> --}}
-    <input type="text" id="set_wattage_value" name="wattage"/>
+    <input type="text" id="wattage" name="wattage"/>
     <input type="text" id="pqty" name="pqty"/>
     <input type="text" id="product_id" name="product_id"/>           
     @csrf
@@ -269,33 +244,7 @@
 
   // alert('test javascript')
 
-function change_product_wattage_image(img,wattage){
-  $('.simpleLens-big-image-container').html(`<a data-lens-image=${img} class="simpleLens-lens-image"><img src=${img} class="simpleLens-big-image"></a>`)
-  $('#set_wattage_value').val(wattage);
-// alert(wattage)
-}
-
-// store data in data base
-function add_to_cart(product_id,product_attr_id){
-  var wattage_field_value = $('#set_wattage_value').val()
-  // alert(wattage);
-  $('#product_id').val(product_id);
-  $('#pqty').val(jQuery('#qty').val());
-
-      jQuery.ajax({
-      url:"{{route('front.add_to_cart')}}",
-      data:jQuery('#frmAddToCart').serialize(),
-      type:'post',
-      success:function(result){
-        // alert('Product '+result.msg)
-      }
-    });
-
-
-
-
-// alert(product_attr_id);
-}
+ 
 
 
 </script>

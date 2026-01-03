@@ -38,7 +38,6 @@
               <select name="status" class="form-control">
                 <option selected value="1">Active</option>
                 <option value="0">Deactive</option>
-                 
               </select>
             </div>
           </form>

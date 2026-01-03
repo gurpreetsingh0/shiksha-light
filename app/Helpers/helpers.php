@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 use function Psy\debug;
 
@@ -208,4 +209,40 @@ function buildTreeView($arr, $parent, $level = 0, $prelevel = -1)
     $html .= '</li></ul>';
   }
   return $html;
+}
+
+
+function getUserTempId(){
+if(session()->has('USER_TEMP_ID') === null){
+  $rand = rand(111111111,999999999);
+  session()->put('USER_TEMP_ID',$rand);
+  return $rand;
+}else{
+  return session()->get('USER_TEMP_ID');
+}
+}
+
+
+
+function getAddToCartTotalItem()
+{
+  $user_id = Auth::user()->id;
+  
+  // if (session()->has('FRONT_USER_LOGIN')) {
+  //   $uid = session()->get('FRONT_USER_LOGIN');
+  //   $user_type = "Reg";
+  // } else {
+  //   $uid = getUserTempId();
+  //   $user_type = "Not-Reg";
+  // }
+  $result = DB::table('carts')
+    ->leftJoin('products', 'products.id', '=', 'carts.product_id')
+    ->leftJoin('variants', 'variants.id', '=', 'carts.product_attr_id')
+    ->leftJoin('sizes', 'sizes.id', '=', 'products_attr.size_id')
+    ->leftJoin('colors', 'colors.id', '=', 'products_attr.color_id')
+    ->where(['user_id' => $user_id])
+     ->select('cart.qty', 'products.name', 'products.image', 'sizes.size', 'colors.color', 'products_attr.price', 'products.slug', 'products.id as pid', 'products_attr.id as attr_id')
+    ->get();
+
+  return $result;
 }
