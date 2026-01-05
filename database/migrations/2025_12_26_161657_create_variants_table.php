@@ -13,7 +13,14 @@ return new class extends Migration
   {
     Schema::create('variants', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+      // $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+
+      $table->unsignedBigInteger('product_id');
+      $table->foreign('product_id')
+      ->on('products')
+      ->references('id')
+      ->onUpdate('cascade')
+      ->onDelete('cascade');
 
       // Identification
       $table->string('catalog_number')->nullable(); // Cat. No.
@@ -28,15 +35,19 @@ return new class extends Migration
       $table->string('dimension')->nullable();
       $table->string('material')->nullable();
       $table->string('color')->nullable();
+      
+      $table->string('cct')->nullable(); //other will be checked button where will i chaked it then  open input box ;
+
       // $table->string('beam_angle')->nullable();
       // $table->string('ip_rating')->nullable();
       $table->string('weight')->nullable();
-
       // Light-specific dimensions
-      $table->string('outer_dia')->nullable(); // Outer Diameter
-      $table->string('inner_cut')->nullable(); // Inner Cut / Cut-out Diameter
+      $table->integer('outer_diameter')->default(0);
+      $table->integer('inner_diameter')->default(0);
+      $table->integer('height')->default(0);
 
-      // Pricing
+
+      // Pricing  
       $table->decimal('mrp', 10, 2)->nullable();
       $table->decimal('price', 10, 2)->nullable();
       // $table->decimal('dealer_price', 10, 2)->nullable();

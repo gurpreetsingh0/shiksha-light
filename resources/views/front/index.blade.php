@@ -1,5 +1,116 @@
 @extends('front/layout')
 @section('title','Home Page')
+
+<style>
+  /* PROMO SECTION */
+#aa-promo {
+  padding: 50px 0;
+  background: linear-gradient(135deg, #f8f9fb, #ffffff);
+}
+
+.aa-promo-area {
+  overflow: hidden;
+}
+
+.aa-promo-right {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Promo Card */
+.aa-single-promo-right {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.35s ease;
+}
+
+.aa-single-promo-right:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15);
+}
+
+/* Banner Image */
+.aa-promo-banner {
+  position: relative;
+      margin: 10;
+
+}
+
+.aa-promo-banner img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.aa-single-promo-right:hover img {
+  transform: scale(1.08);
+}
+
+/* Overlay */
+.aa-promo-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.65)
+  );
+}
+
+/* Text Content */
+.aa-prom-content {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  text-align: center;
+  z-index: 2;
+}
+
+.aa-prom-content h4 {
+  margin: 0;
+}
+
+.aa-prom-content a {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.4px;
+  transition: color 0.3s ease;
+}
+
+.aa-prom-content a:hover {
+  color: #ffd700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .aa-promo-banner img {
+    height: 200px;
+   }
+
+  .aa-prom-content a {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .aa-promo-banner img {
+    height: 170px;
+  }
+
+  .aa-prom-content a {
+    font-size: 16px;
+  }
+}
+
+</style>
  
  @section('container')
  <section id="aa-slider">
@@ -101,7 +212,7 @@
 
   <!-- / Promo section -->
   <!-- Products section -->
-  <section id="aa-product">
+  {{-- <section id="aa-product">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -134,14 +245,13 @@
                       @if(isset($home_categories_product[$list->id][0]))
 
                        @foreach($home_categories_product[$list->id] as $productArr)
-                       {{-- @dd($productArr) --}}
-                        <li>
+                         <li>
                           <figure>
                             <a class="aa-product-img" href="{{url('product/'.$productArr->slug)}}"><img src="{{asset('storage/'.$productArr->image)}}" alt="{{$productArr->title}}"></a>
 
                             <!--Add To Cart Button In Index -->
                             <a class="aa-add-card-btn" href="javascript:void(0);" onclick="home_add_to_cart('{{$productArr->id}}','{{$home_product_attr[$productArr->id][0]->wattage}}')"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
-                             {{-- <a class="aa-add-card-btn" href="{{url('product/'.$productArr->slug)}}" onclick="add_to_cart('{{$product[0]->id}}','{{$product_attr[$product[0]->id][0]->wattage}}')><span class="fa fa-shopping-cart"></span>Add To Cart</a> --}}
+                               <!--<a class="aa-add-card-btn" href="{{url('product/'.$productArr->slug)}}" onclick="add_to_cart('{{$product[0]->id}}','{{$product_attr[$product[0]->id][0]->wattage}}')><span class="fa fa-shopping-cart"></span>Add To Cart</a> -->
                             <figcaption>
                               <h4 class="aa-product-title"><a href="{{url('product/'.$productArr->slug)}}">{{$productArr->title}}</a></h4>
                               <span class="aa-product-price">Rs {{$home_product_attr[$productArr->id][0]->price}}</span><span class="aa-product-price"><del>Rs {{$home_product_attr[$productArr->id][0]->mrp}}</del></span>
@@ -166,14 +276,14 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
 
 
 
   
   <!-- / Products section -->
   <!-- banner section -->
-  <section id="aa-banner">
+  {{-- <section id="aa-banner">
     <div class="container">
       <div class="row">
         <div class="col-md-12">        
@@ -185,9 +295,13 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
+
+  
+
+
   <!-- popular section -->
-  <section id="aa-popular-category">
+  {{-- <section id="aa-popular-category">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -214,7 +328,7 @@
                             <a class="aa-add-card-btn" href="{{url('product/'.$productArr->slug)}}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                             <figcaption>
                               <h4 class="aa-product-title"><a href="{{url('product/'.$productArr->slug)}}">{{$productArr->title}}</a></h4>
-                              {{-- <span class="aa-product-price">Rs {{$home_featured_product_attr[$productArr->id][0]->price}}</span><span class="aa-product-price"><del>Rs {{$home_featured_product_attr[$productArr->id][0]->mrp}}</del></span> --}}
+                              <span class="aa-product-price">Rs {{$home_featured_product_attr[$productArr->id][0]->price}}</span><span class="aa-product-price"><del>Rs {{$home_featured_product_attr[$productArr->id][0]->mrp}}</del></span>
                             </figcaption>
                           </figure>                          
                         </li>  
@@ -243,7 +357,7 @@
                             <a class="aa-add-card-btn" href="{{url('product/'.$productArr->slug)}}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                             <figcaption>
                               <h4 class="aa-product-title"><a href="{{url('product/'.$productArr->slug)}}">{{$productArr->title}}</a></h4>
-                              {{-- <span class="aa-product-price">Rs {{$home_tranding_product_attr[$productArr->id][0]->price}}</span><span class="aa-product-price"><del>Rs {{$home_tranding_product_attr[$productArr->id][0]->mrp}}</del></span> --}}
+                              <span class="aa-product-price">Rs {{$home_tranding_product_attr[$productArr->id][0]->price}}</span><span class="aa-product-price"><del>Rs {{$home_tranding_product_attr[$productArr->id][0]->mrp}}</del></span>
                             </figcaption>
                           </figure>                          
                         </li>  
@@ -278,7 +392,8 @@
                             <a class="aa-add-card-btn" href="{{url('product/'.$productArr->slug)}}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                             <figcaption>
                               <h4 class="aa-product-title"><a href="{{url('product/'.$productArr->slug)}}">{{$productArr->title}}</a></h4>
-                              {{-- <span class="aa-product-price">Rs {{$home_discounted_product_attr[$productArr->id][0]->price}}</span><span class="aa-product-price"><del>Rs {{$home_discounted_product_attr[$productArr->id][0]->mrp}}</del></span> --}}
+                              <!-- Comment it run smothly -->
+                              <span class="aa-product-price">Rs {{$home_discounted_product_attr[$productArr->id][0]->price}}</span><span class="aa-product-price"><del>Rs {{$home_discounted_product_attr[$productArr->id][0]->mrp}}</del></span>
                             </figcaption>
                           </figure>                          
                         </li>  
@@ -299,7 +414,10 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
+
+
+
   <!-- / popular section -->
   <!-- Support section -->
   <section id="aa-support">
@@ -339,7 +457,7 @@
   <!-- / Support section -->
   
   <!-- Client Brand -->
-  <section id="aa-client-brand">
+  {{-- <section id="aa-client-brand">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -353,7 +471,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
   <!-- / Client Brand -->
 
    <input type="hidden" id="qty" value="1"/>

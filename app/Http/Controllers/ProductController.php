@@ -29,9 +29,10 @@ class ProductController extends Controller
         return ($data->category) ? $data->category->name : "--";
       })
       ->addColumn('action', function ($data) {
-        return '<a href="#productView" data-toggle="modal" data-target="#productView"><i class="ik ik-eye f-16 mr-15"></i></a>
-        <a href="'.route('admin.product.edit',$data->id).'"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
-        <a href="#!"><i class="ik ik-trash-2 f-16 text-red"></i></a>';
+      //  <a href="#productView" data-toggle="modal" data-target="#productView"><i class="ik ik-eye f-16 mr-15"></i></a>
+        return '
+         <a href="'.route('admin.product.edit',$data->id). '"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
+        <a  href="javascript:void(0)" data-id="' . $data->id . '" class="delete_btn"><i class="ik ik-trash-2 f-16 text-red"></i></a>';
       })
       ->addColumn('checkbox', function ($data) {
         return '<label class="custom-control custom-checkbox">
@@ -79,9 +80,6 @@ class ProductController extends Controller
         'description'       => $request->description,
         'price'             => $request->price ?? 0,
         'sale_price'        => $request->sale_price,
-        'is_featured'       => $request->is_featured,
-        'is_discounted'     => $request->is_discounted,
-        'is_tranding'       => $request->is_tranding,
         'status'            => 1,
         'image'             => $product_image_path, // null or path
       ]);
@@ -104,22 +102,9 @@ class ProductController extends Controller
       // 3. Store Variants (one image per variant)
       if ($request->has('variants')) {
         foreach ($request->variants as $index =>$variant) {
-
-
-          // $variantImage = null;
-
-          // $variantImages = $request->file("variants.$index.images", []);
-
-          // if (!empty($variantImages)) {
-          //   $variantImage = $variantImages[0]->store('variants', 'public');
-          // }
-
-          
           $variantImage = null;
-    
           // Handle variant images (array input)
           if (isset($variant['images']) && is_array($variant['images'])) {
-
              $firstImage = $variant['images'][0] ?? null;
             if ($firstImage instanceof \Illuminate\Http\UploadedFile) {
               $variantImage = $firstImage->store('variants', 'public');
@@ -140,11 +125,13 @@ class ProductController extends Controller
             'color'          => $variant['color'] ?? null,
             'weight'         => $variant['weight'] ?? null,
 
-            'outer_dia'      => $variant['outer_dia'] ?? null,
-            'inner_cut'      => $variant['inner_cut'] ?? null,
+            'outer_diameter' =>$variant['outer_diameter'] ?? null,
+            'inner_diameter' => $variant['inner_diameter'] ?? null,
+            'height'         => $variant['height'] ?? null,
 
             'mrp'            => $variant['mrp'] ?? null,
             'price'          => $variant['price'] ?? null,
+            'cct'            => $variant['cct'] ?? null,
             'stock'          => $variant['stock'] ?? 0,
 
             'image'          => $variantImage,
@@ -276,5 +263,12 @@ class ProductController extends Controller
     }
   }
 
-  
+  public function delete($id){
+    $delete = Product::find($id)->delete($id);
+    if($delete){
+      return response()->json(['success'=>true,'message'=>'Product Deleted Successfully!'],200);
+    }else{
+      return response()->json(['success'=>false,'message'=>'something went wrong!'],500);
+    }
+  }
 }

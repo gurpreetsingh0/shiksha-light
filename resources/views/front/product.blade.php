@@ -69,20 +69,60 @@
                        @endif 
                     </div>
                     <p>{!!$product[0]->short_description!!}</p>
-                    {{-- #variant --}}
+                     <!--variant start -->
+
+                     <!--wattage variant start -->
                     @if($product_attr[$product[0]->id][0])
                     <h4>Wattage</h4>
+
+
                     <div class="aa-prod-view-size">
-                     @foreach($product_attr[$product[0]->id] as $attr) 
-                     @if($attr->wattage!='') 
+                    @php
+                      $arrWattage=[];
+                      foreach($product_attr[$product[0]->id] as $attr){
+                        $arrWattage[]=$attr->wattage;
+                        #if there want dynamic change image than fix here;
+                      }  
+                      $arrWattage=array_unique($arrWattage);
+                      // prx($arrWattage);
+                    @endphp
+
+
+                     @foreach($arrWattage as $attr) 
+                     @if($attr !='') 
                     <a href="javascript:void(0)" 
-                      onclick="change_product_wattage_image('{{ asset('storage/'.$attr->image) }}','{{$attr->wattage}}')">
-                      {{ $attr->wattage }}
+                      onclick="showWattage('{{$attr}}')" id="wattage_{{$attr}}" class="wattage_link">
+                      {{$attr}}
                     </a>
                       @endif  
                       @endforeach     
                     </div>
                     @endif 
+                    <!--wattage variant end -->
+
+                     <!--cct variant start -->
+                    @if($product_attr[$product[0]->id][0])
+                    <h4>CCT</h4>
+                    <div class="aa-prod-view-size">
+                     @foreach($product_attr[$product[0]->id] as $attr) 
+                     @if($attr->cct!='') 
+                    <a href="javascript:void(0)" class="product_cct wattage_{{$attr->wattage}}"
+                      onclick="change_product_wattage_image('{{ asset('storage/'.$attr->image) }}','{{$attr->wattage}}')">
+                      {{ $attr->cct }}
+                    </a>
+                      @endif  
+                      @endforeach     
+                    </div>
+                    @endif 
+                    <!--cct variant end -->
+
+
+
+
+
+                    <!--variant end -->
+
+
                     <div class="aa-prod-quantity">
                       <form action="">
                         <select id="qty" name="">

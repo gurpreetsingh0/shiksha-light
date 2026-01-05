@@ -469,6 +469,13 @@ function sort_price_filter() {
     jQuery("#categoryFilter").submit();
 }
 
+function showWattage(wattage) {
+  // alert(wattage);
+  $(".product_cct").hide();
+  $(".wattage_"+wattage).show();
+
+}
+
 
 
 

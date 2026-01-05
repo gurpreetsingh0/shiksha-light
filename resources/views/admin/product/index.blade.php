@@ -160,4 +160,5 @@
 	</div>
 	<div class="modal fade edit-layout-modal pr-0" id="productView" tabindex="-1" role="dialog" aria-labelledby="productViewLabel" aria-hidden="true">
     @include('admin.product.list')
+    @include('admin.product.delete')
 @endsection

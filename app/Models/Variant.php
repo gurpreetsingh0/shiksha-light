@@ -10,6 +10,7 @@ class Variant extends Model
     'product_id',
     'catalog_number',
     'sku',
+    'cct',
     'wattage',
     'voltage',
     'dimension',

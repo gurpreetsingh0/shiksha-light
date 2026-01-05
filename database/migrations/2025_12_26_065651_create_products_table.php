@@ -15,8 +15,14 @@ return new class extends Migration
       $table->id();
       $table->string('title');
       $table->string('slug')->unique();
-      $table->foreignId('category_id')
-      ->constrained()->cascadeOnDelete();
+      // $table->foreignId('category_id')
+      // ->constrained()->cascadeOnDelete();
+
+      $table->unsignedBigInteger('category_id')->nullable();
+      $table->foreign('category_id')
+      ->on('categories')->references('id')
+      ->onUpdate('cascade')
+      ->onDelete('set null');
 
       $table->text('short_description')->nullable();
       $table->longText('description')->nullable();

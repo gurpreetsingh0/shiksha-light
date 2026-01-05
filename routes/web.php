@@ -112,6 +112,7 @@ Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
   Route::get('/product/create', [ProductController::class, 'create'])->name('admin.product.create');
   Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.product.edit');
   Route::patch('/product/update/{id}', [ProductController::class, 'update'])->name('admin.product.update');
+  Route::delete('/product/delete/{id}', [ProductController::class, 'delete'])->name('admin.product.delete');
   Route::post('/product/store', [ProductController::class, 'store'])->name('admin.product.store');
   Route::get('/product/get-list', [ProductController::class, 'getProductList'])->name('admin.product.list');
 });

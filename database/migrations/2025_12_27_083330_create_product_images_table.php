@@ -13,7 +13,15 @@ return new class extends Migration
   {
     Schema::create('product_images', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+      // $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+
+      $table->unsignedBigInteger('product_id');
+      $table->foreign('product_id')
+      ->on('products')
+      ->references('id')
+      ->onUpdate('cascade')
+      ->onDelete('cascade');
+
       $table->string('product_images')->nullable(); // store file path or name
       $table->integer('status')->default(1);
       $table->timestamps();

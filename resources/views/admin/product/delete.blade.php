@@ -2,6 +2,7 @@
   <script>
       $(document).on('click', '.delete_btn', function(e) {
         e.preventDefault();
+        // alert('deleted');
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -13,7 +14,8 @@
         }).then((result) => {
           if (result.isConfirmed) {
             var _id = $(this).data('id'); // make sure 'this' is correct in context
-            url = "{{ route($route_name,':id') }}";
+            // alert(_id);
+            url = "{{ route('admin.product.delete',':id') }}";
             url = url.replace(':id', _id)
             $.ajax({
               url: url,
