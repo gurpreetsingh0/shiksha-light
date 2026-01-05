@@ -29,7 +29,7 @@ return new class extends Migration
       $table->integer('is_tranding')->default(0);
 
       // $table->integer('stock')->default(0);
-      $table->boolean('status')->default(1); // 1=Active, 0=Inactive
+      $table->integer('status')->default(1); // 1=Active, 0=Inactive
 
       $table->timestamps();
     });

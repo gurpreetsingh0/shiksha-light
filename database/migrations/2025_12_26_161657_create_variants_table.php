@@ -22,6 +22,7 @@ return new class extends Migration
       // $table->string('hsn_code')->nullable();
 
       // Technical Specs
+      $table->text('short_description')->nullable();
       $table->string('wattage')->nullable();
       $table->string('voltage')->nullable();
       $table->string('dimension')->nullable();
