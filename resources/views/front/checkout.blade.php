@@ -23,7 +23,7 @@
               <div class="col-md-8">
                 <div class="checkout-left">
                   <div class="panel-group" id="accordion">
-                    @if(session()->has('FRONT_USER_LOGIN')==null)
+                    @if(Auth::check())
                     <input type="button" value="Login" class="aa-browse-btn" data-toggle="modal" data-target="#login-modal">  
                     <br/><br/>
                     OR

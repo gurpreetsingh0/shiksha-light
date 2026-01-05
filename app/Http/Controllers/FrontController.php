@@ -307,18 +307,19 @@ foreach($result['home_featured_product'] as $list1){
       $user = Auth::user()->name;
       return $user;
       if (Auth::check()) {
-        $uid = $request->session()->get('FRONT_USER_ID');
-        $customer_info = DB::table('customers')
-          ->where(['id' => $uid])
-          ->get();
+        $customer_info = Auth::user();
+        // $uid = $request->session()->get('FRONT_USER_ID');
+        // $customer_info = DB::table('customers')
+        //   ->where(['id' => $uid])
+        //   ->get();
 
-        $result['customers']['name'] = $customer_info[0]->name;
-        $result['customers']['email'] = $customer_info[0]->email;
-        $result['customers']['mobile'] = $customer_info[0]->mobile;
-        $result['customers']['address'] = $customer_info[0]->address;
-        $result['customers']['city'] = $customer_info[0]->city;
-        $result['customers']['state'] = $customer_info[0]->state;
-        $result['customers']['zip'] = $customer_info[0]->zip;
+        $result['customers']['name'] = $customer_info->name;
+        $result['customers']['email'] = $customer_info->email;
+        $result['customers']['mobile'] = $customer_info->mobile;
+        $result['customers']['address'] = $customer_info->address;
+        $result['customers']['city'] = $customer_info->city;
+        $result['customers']['state'] = $customer_info->state;
+        $result['customers']['zip'] = $customer_info->zip;
       } 
       else {
         $result['customers']['name'] = '';
