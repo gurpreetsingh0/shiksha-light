@@ -4183,3 +4183,11 @@ img {
   }
 }
 
+
+.coupon_code input {
+  border: 1px solid #ccc;
+  height: 40px;
+  padding: 10px;
+  width: 100%;
+}
+

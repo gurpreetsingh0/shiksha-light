@@ -73,6 +73,38 @@
                     @enderror
                   </div>
 
+                  <!-- Add New Field in user table -->
+
+
+                    <div class="form-group">
+                    <label for="mobile">{{ __('Mobile') }}<span class="text-red"></span></label>
+                    <input id="mobile" type="text" class="form-control"
+                      name="mobile" value="{{ old('mobile') }}" placeholder="Enter Mobile Number">
+                    <div class="help-block with-errors"></div>
+                   {{-- 
+                    @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
+                  </div>
+
+  
+                    <div class="form-group">
+                    <label for="pin_code">{{ __('Pin Code') }}<span class="text-red">*</span></label>
+                    <input id="pin_code" type="text" class="form-control @error('pin_code') is-invalid @enderror"
+                      name="pin_code" value="{{ old('pin_code') }}" placeholder="Enter Pin Code" required>
+                    <div class="help-block with-errors"></div>
+
+                    {{-- @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
+                  </div>
+
+                  <!--End Add New Add Field -->
+
                   <div class="form-group">
                     <label for="password">{{ __('Password') }}<span class="text-red">*</span></label>
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
@@ -93,6 +125,69 @@
                   </div>
                 </div>
                 <div class="col-md-6">
+
+                  <div class="form-group">
+                    <label for="father_name">{{ __('Father Name') }}<span class="text-red"></span></label>
+                    <input id="father_name" type="text" class="form-control @error('father_name') is-invalid @enderror"
+                      name="father_name" value="{{ old('father_name') }}" placeholder="Enter father name">
+                    <div class="help-block with-errors"></div>
+
+                    {{-- @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="address">{{ __('Address') }}<span class="text-red"></span></label>
+                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror"
+                      name="address" value="{{ old('address') }}" placeholder="Enter address">
+                    <div class="help-block with-errors"></div>
+
+                    {{-- @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
+                  </div>
+                    <div class="form-group">
+                    <label for="city">{{ __('City') }}<span class="text-red"></span></label>
+                    <input id="city" type="text" class="form-control @error('city') is-invalid @enderror"
+                      name="city" value="{{ old('city') }}" placeholder="Enter City">
+                    <div class="help-block with-errors"></div>
+{{-- 
+                    @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
+                  </div>
+
+                    <div class="form-group">
+                    <label for="state">{{ __('State') }}<span class="text-red"></span></label>
+                    <input id="state" type="text" class="form-control @error('state') is-invalid @enderror"
+                      name="state" value="{{ old('state') }}" placeholder="Enter state" required>
+                    <div class="help-block with-errors"></div>
+
+                    {{-- @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
                   <!-- Assign role & view role permisions -->
                   <div class="form-group">
                     <label for="role">

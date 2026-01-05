@@ -47,6 +47,13 @@
                                     <th>{{ __('#')}}</th>
                                     <th>{{ __('Name')}}</th>
                                     <th>{{ __('Email')}}</th>
+
+                                    <th>{{ __('Mobile')}}</th>
+                                    <th>{{ __('Father Name')}}</th>
+                                    <th>{{ __('City')}}</th>
+                                    <th>{{ __('State')}}</th>
+                                    <th>{{ __('Pin Code')}}</th>
+
                                     <th>{{ __('Role')}}</th>
                                     <th>{{ __('Permissions')}}</th>
                                     <th>{{ __('Action')}}</th>

@@ -296,13 +296,44 @@ foreach($result['home_featured_product'] as $list1){
     $result['filter_price_end'] = $filter_price_end;
     // $result['color_filter'] = $color_filter;
     // $result['colorFilterArr'] = $colorFilterArr;
-
-
-
-
     return view('front.category', $result);
+  }
 
+  public function checkout(Request $request)
+  {
+    $result['cart_data'] = getAddToCartTotalItem();
+    if (isset($result['cart_data'][0])) { #if cart have value than enter inside if condition;
 
+      $user = Auth::user()->name;
+      return $user;
+      if (Auth::check()) {
+        $uid = $request->session()->get('FRONT_USER_ID');
+        $customer_info = DB::table('customers')
+          ->where(['id' => $uid])
+          ->get();
+
+        $result['customers']['name'] = $customer_info[0]->name;
+        $result['customers']['email'] = $customer_info[0]->email;
+        $result['customers']['mobile'] = $customer_info[0]->mobile;
+        $result['customers']['address'] = $customer_info[0]->address;
+        $result['customers']['city'] = $customer_info[0]->city;
+        $result['customers']['state'] = $customer_info[0]->state;
+        $result['customers']['zip'] = $customer_info[0]->zip;
+      } 
+      else {
+        $result['customers']['name'] = '';
+        $result['customers']['email'] = '';
+        $result['customers']['mobile'] = '';
+        $result['customers']['address'] = '';
+        $result['customers']['city'] = '';
+        $result['customers']['state'] = '';
+        $result['customers']['zip'] = '';
+      }
+
+      return view('front.checkout', $result);
+    } else {
+      return redirect('/');
+    }
   }
 
  

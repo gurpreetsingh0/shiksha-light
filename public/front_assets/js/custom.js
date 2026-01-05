@@ -373,6 +373,8 @@ function change_product_wattage_image(img, wattage) {
 
 // store data in data base
 function add_to_cart(product_id, wattage_str) {
+
+  // alert(product_id);
     var wattage = $("#wattage").val();
 
     if (wattage_str == 0) {
@@ -470,11 +472,19 @@ function sort_price_filter() {
 }
 
 function showWattage(wattage) {
-  // alert(wattage);
-  $(".product_cct").hide();
-  $(".wattage_"+wattage).show();
+  // $(".product_cct").hide();
+  // $(".wattage_"+wattage).show();
 
+  $("#wattage").val(wattage);
 }
+
+
+
+
+
+// function showCCT() {
+//   alert('test-cct');
+// }
 
 
 

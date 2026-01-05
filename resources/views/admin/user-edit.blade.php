@@ -63,6 +63,7 @@
                       </span>
                     @enderror
                   </div>
+
                   <div class="form-group">
                     <label for="email">{{ __('Email') }}<span class="text-red">*</span></label>
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
@@ -74,6 +75,33 @@
                         <strong>{{ $message }}</strong>
                       </span>
                     @enderror
+                  </div>
+
+                  <div class="form-group">
+                    <label for="mobile">{{ __('Mobile') }}<span class="text-red"></span></label>
+                    <input id="mobile" type="text" class="form-control"
+                      name="mobile" value="{{ clean($user->mobile, 'titles') }}">
+                    <div class="help-block with-errors"></div>
+                   {{-- 
+                    @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
+                  </div>
+
+                    <!-- Create New Field -->
+                    <div class="form-group">
+                    <label for="pin_code">{{ __('Pin Code') }}<span class="text-red">*</span></label>
+                    <input id="pin_code" type="text" class="form-control @error('pin_code') is-invalid @enderror"
+                      name="pin_code" value="{{ clean($user->pin_code, 'titles') }}">
+                    <div class="help-block with-errors"></div>
+
+                    {{-- @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
                   </div>
 
 
@@ -95,12 +123,73 @@
                     <div class="help-block with-errors"></div>
                   </div>
 
+                  <!-- End Create New Field -->
+
 
 
 
 
                 </div>
                 <div class="col-md-6">
+                         
+                  <!-- Add New Field -->
+                  <div class="form-group">
+                    <label for="father_name">{{ __('Father Name') }}<span class="text-red"></span></label>
+                    <input id="father_name" type="text" class="form-control @error('father_name') is-invalid @enderror"
+                      name="father_name" value="{{ clean($user->father_name, 'titles') }}">
+                    <div class="help-block with-errors"></div>
+
+                    {{-- @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="address">{{ __('Address') }}<span class="text-red"></span></label>
+                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror"
+                      name="address" value="{{ clean($user->address, 'titles') }}">
+                    <div class="help-block with-errors"></div>
+
+                    {{-- @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
+                  </div>
+                    <div class="form-group">
+                    <label for="city">{{ __('City') }}<span class="text-red"></span></label>
+                    <input id="city" type="text" class="form-control @error('city') is-invalid @enderror"
+                      name="city" value="{{ clean($user->city, 'titles') }}">
+                    <div class="help-block with-errors"></div>
+                   {{-- 
+                    @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
+                  </div>
+
+                    <div class="form-group">
+                    <label for="state">{{ __('State') }}<span class="text-red"></span></label>
+                    <input id="state" type="text" class="form-control @error('state') is-invalid @enderror"
+                      name="state" value="{{ clean($user->state, 'titles') }}">
+                    <div class="help-block with-errors"></div>
+
+                    {{-- @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror --}}
+                  </div>
+
+                  <!-- End Add New Field -->
+
+
+
+
                   <!-- Assign role & view role permisions -->
                   <div class="form-group">
                     <label for="role">{{ __('Assign Role') }}<span class="text-red">*</span></label>

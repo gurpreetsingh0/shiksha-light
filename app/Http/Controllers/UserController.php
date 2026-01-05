@@ -106,12 +106,31 @@ class UserController extends Controller
    */
   public function store(UserRequest $request) //: RedirectResponse
   {
+
+    $name="";
+    $email="";
+    $father_name="";
+    $address="";
+    $pin_code="";
+    $mobile="";
+    $city="";
+    $state="";
+    // return $request->all();
     try {
-    $is_sale_executive = 0;
+      $name = $request->name;
+      $email = $request->email;
+      $father_name = $request->father_name;
+      $address = $request->address;
+      $pin_code = $request->pin_code;
+      $mobile = $request->mobile;
+      $city = $request->city;
+      $state = $request->state;
+    
+    $is_sales_executive = 0;
     $role_name = Role::find(intval($request->role))->name;
 
    if($role_name == 'Sales Executive'){
-    $is_sale_executive=1;
+    $is_sales_executive=1;
    }
 
       $validator = Validator::make($request->all(), [
@@ -124,16 +143,23 @@ class UserController extends Controller
       }
       // store user information
       $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
+        'name' => $name,
+        'email' => $email,
+
+        'mobile'=>$mobile,
+        'father_name'=>$father_name,
+        'city'=>$city,
+        'address'=>$address,
+        'state'=>$state,
+        'pin_code'=>$pin_code,
+
         'password' => $request->password,
-        'is_sale_executive'=> $is_sale_executive
+        'is_sale_executive'=> $is_sales_executive
       ]);
       if ($user) {
         // assign new role to the user
 
-        //  $role= Role::find($request->role);
-
+ 
         $user->syncRoles(intval($request->role));
 
         return redirect('users')->with('success', 'New user created!');
@@ -160,7 +186,6 @@ class UserController extends Controller
       if ($user) {
         $user_role = $user->roles->first();
         $roles = Role::whereIn('name',['Admin','Sales Executive'])->pluck('name', 'id');
-
         return view('admin.user-edit', compact('user', 'user_role', 'roles'));
       }
 
@@ -180,6 +205,23 @@ class UserController extends Controller
    */
   public function update(Request $request): RedirectResponse
   {
+    $name = "";
+    $email = "";
+    $father_name = "";
+    $address = "";
+    $pin_code = "";
+    $mobile = "";
+    $city = "";
+    $state = "";
+
+    $name = $request->name;
+    $email = $request->email;
+    $father_name = $request->father_name;
+    $address = $request->address;
+    $pin_code = $request->pin_code;
+    $mobile = $request->mobile;
+    $city = $request->city;
+    $state = $request->state;
     // update user info
     $validator = Validator::make($request->all(), [
       'id' => 'required',
@@ -204,6 +246,14 @@ class UserController extends Controller
         $payload = [
           'name' => $request->name,
           'email' => $request->email,
+
+          'mobile' => $mobile,
+          'father_name' => $father_name,
+          'city' => $city,
+          'address' => $address,
+          'state' => $state,
+          'pin_code' => $pin_code,
+
         ];
         // update password if user input a new password
         if (isset($request->password) && $request->password) {

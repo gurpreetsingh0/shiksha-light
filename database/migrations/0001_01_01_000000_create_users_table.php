@@ -15,7 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->integer('is_sale_executive');
+
+            #add new field ------------------------
+            $table->string('mobile')->nullable();
+            $table->string('father_name')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('pin_code')->nullable();
+            #--------------------------------------
+
+            $table->integer('is_sales_executive');
+            $table->integer('is_admin_executive');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
