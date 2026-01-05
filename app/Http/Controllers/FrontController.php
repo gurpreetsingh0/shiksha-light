@@ -223,7 +223,7 @@ foreach($result['home_featured_product'] as $list1){
     }
 
     $query = DB::table('products');
-    $query = $query->select('products.*');
+    $query = $query->distinct()->select('products.*');
     $query = $query->leftJoin('categories', 'categories.id', '=', 'products.category_id');
     $query = $query->leftJoin('variants', 'products.id', '=', 'variants.product_id');
     $query = $query->where(['products.status' => 1]);
