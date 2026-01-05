@@ -12,8 +12,7 @@ use function Laravel\Prompts\table;
 class FrontController extends Controller
 {
   public function index(){
-
-  //  prx(getTopNavCat());
+   //  prx(getTopNavCat());
    $result['home_categories']=DB::table('categories')
     ->where(['status'=>1,'is_home'=>1])
     ->get();
@@ -142,19 +141,6 @@ foreach($result['home_featured_product'] as $list1){
   }
 
   public function AddToCart(Request $request){
-
-    
-    if($request->session()->has('FRONT_USER_LOGIN')){
-        $uid=$request->session()->get('FRONT_USER_LOGIN');
-        $user_type = "Reg";
-    }else{
-      $uid = getUserTempId();
-      $user_type = "Not-Reg";
-    }
-
-  
-
-
     $pqty = $request->pqty;
     $wattage = $request->wattage;
     $product_id = $request->product_id;
@@ -181,14 +167,7 @@ foreach($result['home_featured_product'] as $list1){
           ->update(['qty' => $pqty]);
         $msg = "updated";
       }
-
-
-        //  DB::table('carts')
-        // ->where(['id' => $update_id])
-        // ->update(['qty'=> $pqty]);
-        // $msg = "updated"; 
      }else{
-
       $id=DB::table('carts')->insertGetId([
           'user_id'=> $user_id,
           'product_id'=> $product_id,
@@ -200,22 +179,20 @@ foreach($result['home_featured_product'] as $list1){
 
      }
 
-       return response()->json(['msg'=>$msg]);
 
+    $result = DB::table('carts')
+      ->leftJoin('products', 'products.id', '=', 'carts.product_id')
+      ->leftJoin('variants', 'variants.id', '=', 'carts.product_attr_id')
+      ->where(['user_id' => $user_id])
+      ->select('carts.qty', 'products.title', 'products.image', 'variants.price', 'products.slug', 'products.id as pid', 'variants.id as attr_id')
+      ->get();
+    return response()->json(['msg' => $msg, 'data' => $result, 'totalItem' => count($result)]);
     // Cart::create();
     // return $request->all();
   }
 
   public function cart(Request $request)
   {
-    // if ($request->session()->has('FRONT_USER_LOGIN')) {
-    //   $uid = $request->session()->get('FRONT_USER_LOGIN');
-    //   $user_type = "Reg";
-    // } else {
-    //   $uid = getUserTempId();
-    //   $user_type = "Not-Reg";
-    // }
-
     $user_id = Auth::user()->id;
      $result['list'] = DB::table('carts')
       ->leftJoin('products', 'products.id', '=', 'carts.product_id')
@@ -232,7 +209,101 @@ foreach($result['home_featured_product'] as $list1){
       // return $result;
     return view('front.cart', $result);
   }
-  
+
+  public function category(Request $request, $slug)
+  {
+    $sort = "";
+    $sort_txt = "";
+    $filter_price_start = "";
+    $filter_price_end = "";
+    $color_filter = "";
+    $colorFilterArr = [];
+    if ($request->get('sort') !== null) {
+      $sort = $request->get('sort');
+    }
+
+    $query = DB::table('products');
+    $query = $query->select('products.*');
+    $query = $query->leftJoin('categories', 'categories.id', '=', 'products.category_id');
+    $query = $query->leftJoin('variants', 'products.id', '=', 'variants.product_id');
+    $query = $query->where(['products.status' => 1]);
+    $query = $query->where(['categories.slug' => $slug]);
+
+
+    if ($sort == 'name') {
+      $query = $query->orderBy('products.title', 'asc');
+      $sort_txt = "Product Name";
+    }
+    if ($sort == 'date') {
+      $query = $query->orderBy('products.id', 'desc');
+      $sort_txt = "Date";
+    }
+    if ($sort == 'price_desc') {
+      $query = $query->orderBy('variants.price', 'desc');
+      $sort_txt = "Price - DESC";
+    }
+    if ($sort == 'price_asc') {
+      $query = $query->orderBy('products_attr.price', 'asc');
+      $sort_txt = "Price - ASC";
+    }
+
+
+    if ($request->get('filter_price_start') !== null && $request->get('filter_price_end') !== null) {
+      $filter_price_start = $request->get('filter_price_start');
+      $filter_price_end = $request->get('filter_price_end');
+
+      if ($filter_price_start > 0 && $filter_price_end > 0) {
+        $query = $query->whereBetween('variants.price', [$filter_price_start, $filter_price_end]);
+      }
+    }
+
+    // if ($request->get('color_filter') !== null) {
+    //   $color_filter = $request->get('color_filter');
+    //   $colorFilterArr = explode(":", $color_filter);
+    //   $colorFilterArr = array_filter($colorFilterArr);
+
+    //   $query = $query->where(['products_attr.color_id' => $request->get('color_filter')]);
+    // }
+
+    // $query = $query->distinct()->select('products.*');
+    $query = $query->get();
+    $result['product'] = $query;
+    foreach ($result['product'] as $list1) {
+
+        $query1 = DB::table('variants');
+      // $query1 = $query1->leftJoin('sizes', 'sizes.id', '=', 'products_attr.size_id');
+      // $query1 = $query1->leftJoin('colors', 'colors.id', '=', 'products_attr.color_id');
+      $query1 = $query1->where(['variants.product_id' => $list1->id]);
+      $query1 = $query1->get();
+      $result['product_attr'][$list1->id] = $query1;
+    }
+
+    // $result['product_attr'];
+
+    // $result['colors'] = DB::table('colors')
+    //   ->where(['status' => 1])
+    //   ->get();
+
+
+    // $result['categories_left'] = DB::table('categories')
+    //   ->where(['status' => 1])
+    //   ->get();
+
+    // $result['slug'] = $slug;
+    $result['sort'] = $sort;
+    $result['sort_txt'] = $sort_txt;
+    $result['filter_price_start'] = $filter_price_start;
+    $result['filter_price_end'] = $filter_price_end;
+    // $result['color_filter'] = $color_filter;
+    // $result['colorFilterArr'] = $colorFilterArr;
+
+
+
+
+    return view('front.category', $result);
+
+
+  }
 
  
 }

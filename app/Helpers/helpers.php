@@ -169,9 +169,9 @@ function getTopNavCat()
     ->get();
   $arr = [];
   foreach ($result as $row) {
-    $arr[$row->id]['city'] = $row->name;
+    $arr[$row->id]['name'] = $row->name;
     $arr[$row->id]['parent_id'] = $row->category_id;
-    $arr[$row->id]['slug'] = $row->category_id;
+    $arr[$row->id]['category_slug'] = $row->slug;
   }
   // return $arr;
   $str = buildTreeView($arr, 0);
@@ -196,7 +196,8 @@ function buildTreeView($arr, $parent, $level = 0, $prelevel = -1)
       if ($level == $prelevel) {
         $html .= '</li>';
       }
-      $html .= '<li><a href="#">' . $data['city'] . '<span class="caret"></span></a>';
+      $url = url("/category/" . $data['category_slug']);
+      $html .= '<li><a href="' . $url . '">' . $data['name'] . '<span class="caret"></span></a>';
       if ($level > $prelevel) {
         $prelevel = $level;
       }
@@ -227,22 +228,13 @@ if(session()->has('USER_TEMP_ID') === null){
 function getAddToCartTotalItem()
 {
   $user_id = Auth::user()->id;
-  
-  // if (session()->has('FRONT_USER_LOGIN')) {
-  //   $uid = session()->get('FRONT_USER_LOGIN');
-  //   $user_type = "Reg";
-  // } else {
-  //   $uid = getUserTempId();
-  //   $user_type = "Not-Reg";
-  // }
   $result = DB::table('carts')
     ->leftJoin('products', 'products.id', '=', 'carts.product_id')
     ->leftJoin('variants', 'variants.id', '=', 'carts.product_attr_id')
-    ->leftJoin('sizes', 'sizes.id', '=', 'products_attr.size_id')
-    ->leftJoin('colors', 'colors.id', '=', 'products_attr.color_id')
     ->where(['user_id' => $user_id])
-     ->select('cart.qty', 'products.name', 'products.image', 'sizes.size', 'colors.color', 'products_attr.price', 'products.slug', 'products.id as pid', 'products_attr.id as attr_id')
+     ->select('carts.qty', 'products.title', 'products.image', 'variants.price', 'products.slug', 'products.id as pid', 'variants.id as attr_id')
     ->get();
-
   return $result;
 }
+
+// prx(getAddToCartTotalItem());

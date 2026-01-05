@@ -23,6 +23,7 @@ Route::middleware($front_back_middleware)->group(function () {
   Route::get('/', [FrontController::class, 'index'])->name('front.index');
   Route::get('/product/{slug}', [FrontController::class, 'product'])->name('front.product');
   Route::post('/add-to-cart', [FrontController::class, 'AddToCart'])->name('front.add_to_cart');
+  Route::get('/category/{id}', [FrontController::class, 'category'])->name('front.category');
 
   #cart route;
   Route::get('/cart', [FrontController::class, 'cart'])->name('front.view.cart');

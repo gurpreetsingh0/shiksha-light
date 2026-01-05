@@ -356,13 +356,12 @@
   </section>
   <!-- / Client Brand -->
 
- {{-- <input type="text" id="pqty" name="pqty"/> --}}
- {{-- <form id="frmAddToCart">
-    <input type="text" id="size_id" name="size_id"/>
-    <input type="text" id="set_wattage_value" name="wattage"/>
-    <input type="text" id="pqty" name="pqty"/>
-    <input type="text" id="product_id" name="product_id"/>           
+   <input type="hidden" id="qty" value="1"/>
+  <form id="frmAddToCart">
+    <input type="hidden" id="wattage" name="wattage"/>
+     <input type="hidden" id="pqty" name="pqty"/>
+    <input type="hidden" id="product_id" name="product_id"/>           
     @csrf
-  </form> --}}
+  </form> 
 
 @endsection

@@ -53,14 +53,23 @@
 
          <div class="row"> 
           <div class="form-group col-6">
+          <label class="fw-bold">Main Image(250x300)</label>
+            <input name="images" type="file" class="form-control shadow-sm">
+            <div id="product-preview" class="d-flex flex-wrap mt-2 gap-2"></div>
+          </div>
+          
+          <div class="form-group col-6">
             <label class="fw-bold">Short Description*</label>
             <input name="short_description" type="text" class="form-control shadow-sm" placeholder="Enter Short Description Here..">
           </div>
           
-          <div class="form-group col-6">
+ 
+
+
+          {{-- <div class="form-group col-6">
             <label class="fw-bold">Price*</label>
             <input name="price" type="number" class="form-control shadow-sm" placeholder="Enter Price..">
-          </div>
+          </div> --}}
           </div>
 
 
@@ -94,11 +103,11 @@
  
 
           {{-- for single image --}}
-          <div class="form-group mb-4">
+          {{-- <div class="form-group mb-4">
             <label class="fw-bold">Main Image(250x300)</label>
             <input name="images" type="file" class="form-control shadow-sm">
             <div id="product-preview" class="d-flex flex-wrap mt-2 gap-2"></div>
-          </div>
+          </div> --}}
 
 
          <!-- Gallary Images -->

@@ -18,7 +18,9 @@
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-    
+        <script>
+    var PRODUCT_IMAGE="{{asset('storage')}}";
+    </script>
 
     <style>
 
@@ -59,7 +61,7 @@
   
 
   </head>
-  <body> 
+  <body class="productPage"> 
    <!-- wpf loader Two -->
     <div id="wpf-loader-two">          
       <div class="wpf-loader-two-inner">
@@ -122,9 +124,14 @@
                 <!-- img based logo -->
                 <!-- <a href="javascript:void(0)"><img src="img/logo.jpg" alt="logo img"></a> -->
               </div>
+
+
+
+
+              
               <!-- / logo  -->
                <!-- cart box -->
-              <div class="aa-cartbox">
+              {{-- <div class="aa-cartbox">
                 <a class="aa-cart-link" href="#">
                   <span class="fa fa-shopping-basket"></span>
                   <span class="aa-cart-title">SHOPPING CART</span>
@@ -159,8 +166,60 @@
                   </ul>
                   <a class="aa-cartbox-checkout aa-primary-btn" href="javascript:void(0)">Checkout</a>
                 </div>
+              </div> --}}
+              <!-- / cart box -->
+
+
+
+               <!-- cart box -->
+              @php
+              $getAddToCartTotalItem=getAddToCartTotalItem();
+              $totalCartItem=count($getAddToCartTotalItem);
+              $totalPrice=0;
+              @endphp 
+              <div class="aa-cartbox">
+                <a class="aa-cart-link" href="#" id="cartBox">
+                  <span class="fa fa-shopping-basket"></span>
+                  <span class="aa-cart-title">SHOPPING CART</span>
+                  <span class="aa-cart-notify">{{$totalCartItem}}</span>
+                </a>
+                <div class="aa-cartbox-summary">
+               @if($totalCartItem>0)
+                
+                  <ul>
+                    @foreach($getAddToCartTotalItem as $cartItem)
+
+                    @php
+                    $totalPrice=$totalPrice+($cartItem->qty*$cartItem->price)
+                    @endphp
+                    <li>
+                      <a class="aa-cartbox-img" href="#"><img src="{{asset('storage/'.$cartItem->image)}}" alt="img"></a>
+                      <div class="aa-cartbox-info">
+                        <h4><a href="#">{{$cartItem->title}}</a></h4>
+                        <p>{{$cartItem->qty}} * Rs {{$cartItem->price}}</p>
+                      </div>
+                    </li>
+                    @endforeach                  
+                    <li>
+                      <span class="aa-cartbox-total-title">
+                        Total
+                      </span>
+                      <span class="aa-cartbox-total-price">
+                        Rs {{$totalPrice}}
+                      </span>
+                    </li>
+                  </ul>
+                  <a class="aa-cartbox-checkout aa-primary-btn" href="{{url('/cart')}}">Cart</a>
+               
+                @endif
+                </div>
               </div>
               <!-- / cart box -->
+
+
+
+
+
               <!-- search box -->
               <div class="aa-search-box search-icon-inside">
                   <form>
