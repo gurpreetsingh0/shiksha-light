@@ -3,63 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\OrderDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 use function Laravel\Prompts\table;
 
 class FrontController extends Controller
 {
-  public function index(){
-   //  prx(getTopNavCat());
-   $result['home_categories']=DB::table('categories')
-    ->where(['status'=>1,'is_home'=>1])
-    ->get();
+  public function index()
+  {
+    //  prx(getTopNavCat());
+    $result['home_categories'] = DB::table('categories')
+      ->where(['status' => 1, 'is_home' => 1])
+      ->get();
 
-    foreach($result['home_categories'] as $list){
-      $product_data = DB::table('products')->where(['category_id' => $list->id, 'status' => 1])->get();        
-      if(count($product_data)){
-      $result['home_categories_product'][$list->id]=$product_data;
-      
-      foreach($product_data as $list2){
-          $product_attr_data = DB::table('variants')->where('product_id',$list2->id)->get();
+    foreach ($result['home_categories'] as $list) {
+      $product_data = DB::table('products')->where(['category_id' => $list->id, 'status' => 1])->get();
+      if (count($product_data)) {
+        $result['home_categories_product'][$list->id] = $product_data;
 
-          if(count($product_attr_data)){
-          $result['home_product_attr'][$list2->id] = $product_attr_data;
+        foreach ($product_data as $list2) {
+          $product_attr_data = DB::table('variants')->where('product_id', $list2->id)->get();
+
+          if (count($product_attr_data)) {
+            $result['home_product_attr'][$list2->id] = $product_attr_data;
           }
+        }
       }
     }
- }
-#section 2 
+    #section 2 
 
 
-#get is_tranding_product;
- $result['home_tranding_product'][$list->id]=DB::table('products')->where(['status'=>1,'is_tranding'=>1])->get();
- foreach($result['home_tranding_product'] as $list1){
-  $tranding_product_query = DB::table('variants')->where(['product_id' => $list->id,'status' => 1])->get();
-  if(count($tranding_product_query)){
-   $result['home_tranding_product_attr'][$list1->id]= $tranding_product_query;
-  }
- }
+    #get is_tranding_product;
+    $result['home_tranding_product'][$list->id] = DB::table('products')->where(['status' => 1, 'is_tranding' => 1])->get();
+    foreach ($result['home_tranding_product'] as $list1) {
+      $tranding_product_query = DB::table('variants')->where(['product_id' => $list->id, 'status' => 1])->get();
+      if (count($tranding_product_query)) {
+        $result['home_tranding_product_attr'][$list1->id] = $tranding_product_query;
+      }
+    }
 
-#get is_discounted product;
-$result['home_discounted_product'][$list->id] = DB::table('products')->where(['status' => 1, 'is_discounted' => 1])->get();
-foreach($result['home_discounted_product'] as $list1){
-  $home_discounted_variant = DB::table('variants')->where(['status'=>1,'product_id'=>$list->id])->get();
-  if(count($home_discounted_variant)){
-     $result['home_discounted_product_attr'][$list1->id]= $home_discounted_variant;
-  }
-}
+    #get is_discounted product;
+    $result['home_discounted_product'][$list->id] = DB::table('products')->where(['status' => 1, 'is_discounted' => 1])->get();
+    foreach ($result['home_discounted_product'] as $list1) {
+      $home_discounted_variant = DB::table('variants')->where(['status' => 1, 'product_id' => $list->id])->get();
+      if (count($home_discounted_variant)) {
+        $result['home_discounted_product_attr'][$list1->id] = $home_discounted_variant;
+      }
+    }
 
-#get is_feature product;
-$result['home_featured_product'][$list->id] = DB::table('products')->where(['status' => 1, 'is_featured' => 1])->get();
-foreach($result['home_featured_product'] as $list1){
-  $home_feature_product_attr = DB::table('variants')->where(['status'=>1,'product_id'=>$list->id])->get();
-  if(count($home_discounted_variant)){
-     $result['home_featured_product_attr'][$list1->id]= $home_feature_product_attr;
-  }
-}
+    #get is_feature product;
+    $result['home_featured_product'][$list->id] = DB::table('products')->where(['status' => 1, 'is_featured' => 1])->get();
+    foreach ($result['home_featured_product'] as $list1) {
+      $home_feature_product_attr = DB::table('variants')->where(['status' => 1, 'product_id' => $list->id])->get();
+      if (count($home_discounted_variant)) {
+        $result['home_featured_product_attr'][$list1->id] = $home_feature_product_attr;
+      }
+    }
 
     $result['home_brand'] = DB::table('brands')
       ->where(['status' => 1])
@@ -68,25 +71,26 @@ foreach($result['home_featured_product'] as $list1){
 
 
 
-      $result['home_banner']=DB::table('banners')->where(['status'=>1])->get();
+    $result['home_banner'] = DB::table('banners')->where(['status' => 1])->get();
 
-    return view('front.index',$result);
+    return view('front.index', $result);
   }
 
 
   public function product(Request $request, $slug)
   {
 
-   $result['product'] =
+    // return $slug;
+    $result['product'] =
       DB::table('products')
       ->where(['status' => 1])
       ->where(['slug' => $slug])
       ->get();
 
-      // prx($result['product']);
-    
+    // prx($result['product']);
 
-      #get product variant
+
+    #get product variant
     foreach ($result['product'] as $list1) {
       $product_attr_query = $result['product_attr'][$list1->id] =
         DB::table('variants')
@@ -96,15 +100,15 @@ foreach($result['home_featured_product'] as $list1){
         // ->leftJoin('colors', 'colors.id', '=', 'products_attr.color_id')
         ->where(['variants.product_id' => $list1->id])
         ->get();
-    if(count($product_attr_query)){
-      $result['product_attr'][$list1->id] = $product_attr_query;
-    }
+      if (count($product_attr_query)) {
+        $result['product_attr'][$list1->id] = $product_attr_query;
+      }
     }
 
     #get product gallary image
-    foreach($result['product'] as $list1){
-     $gallary_images = DB::table('product_images')->where('product_id',$list1->id )->get();
-     if(count($gallary_images)){
+    foreach ($result['product'] as $list1) {
+      $gallary_images = DB::table('product_images')->where('product_id', $list1->id)->get();
+      if (count($gallary_images)) {
         $result['product_images'][$list1->id] = $gallary_images;
       }
     }
@@ -129,10 +133,9 @@ foreach($result['home_featured_product'] as $list1){
         // ->leftJoin('colors', 'colors.id', '=', 'products_attr.color_id')
         ->where(['variants.product_id' => $list1->id])
         ->get();
-      if(count($related_product_query)){
+      if (count($related_product_query)) {
         $result['related_product_attr'][$list1->id] = $related_product_query;
-       }
-         
+      }
     }
 
 
@@ -140,21 +143,22 @@ foreach($result['home_featured_product'] as $list1){
     return view('front.product', $result);
   }
 
-  public function AddToCart(Request $request){
+  public function AddToCart(Request $request)
+  {
     $pqty = $request->pqty;
     $wattage = $request->wattage;
     $product_id = $request->product_id;
     $user_id = Auth::user()->id;
 
-    $result = DB::table('variants')->where(['product_id'=>$product_id,'wattage'=>$wattage])->get();
+    $result = DB::table('variants')->where(['product_id' => $product_id, 'wattage' => $wattage])->get();
     $product_attr_id = $result[0]->id;
 
     #update if get this value just update quantity;
-     $check = DB::table('carts')
-     ->where(['user_id'=> $user_id, 'product_id'=>$product_id,'product_attr_id'=>$product_attr_id])
-     ->get();
-     if(isset($check[0])){
-        $update_id = $check[0]->id;
+    $check = DB::table('carts')
+      ->where(['user_id' => $user_id, 'product_id' => $product_id, 'product_attr_id' => $product_attr_id])
+      ->get();
+    if (isset($check[0])) {
+      $update_id = $check[0]->id;
 
       if ($pqty == 0) {
         DB::table('carts')
@@ -167,17 +171,15 @@ foreach($result['home_featured_product'] as $list1){
           ->update(['qty' => $pqty]);
         $msg = "updated";
       }
-     }else{
-      $id=DB::table('carts')->insertGetId([
-          'user_id'=> $user_id,
-          'product_id'=> $product_id,
-          'product_attr_id'=> $product_attr_id,
-          'qty'=> $pqty
+    } else {
+      $id = DB::table('carts')->insertGetId([
+        'user_id' => $user_id,
+        'product_id' => $product_id,
+        'product_attr_id' => $product_attr_id,
+        'qty' => $pqty
       ]);
       $msg = "added";
-
-
-     }
+    }
 
 
     $result = DB::table('carts')
@@ -194,7 +196,7 @@ foreach($result['home_featured_product'] as $list1){
   public function cart(Request $request)
   {
     $user_id = Auth::user()->id;
-     $result['list'] = DB::table('carts')
+    $result['list'] = DB::table('carts')
       ->leftJoin('products', 'products.id', '=', 'carts.product_id')
       ->leftJoin('variants', 'variants.id', '=', 'carts.product_attr_id')
 
@@ -203,10 +205,10 @@ foreach($result['home_featured_product'] as $list1){
       ->where(['user_id' => $user_id])
       // ->where(['user_type' => "registerd"])
       // ->select('carts.qty', 'products.name', 'products.image', '', 'colors.color', 'products_attr.price', 'products.slug', 'products.id as pid', 'products_attr.id as attr_id')
-      ->select('carts.qty', 'products.title', 'products.image','variants.price', 'products.slug', 'variants.id as attr_id', 'products.id as pid','variants.wattage')
+      ->select('carts.qty', 'products.title', 'products.image', 'variants.price', 'products.slug', 'variants.id as attr_id', 'products.id as pid', 'variants.wattage')
       ->get();
 
-      // return $result;
+    // return $result;
     return view('front.cart', $result);
   }
 
@@ -270,7 +272,7 @@ foreach($result['home_featured_product'] as $list1){
     $result['product'] = $query;
     foreach ($result['product'] as $list1) {
 
-        $query1 = DB::table('variants');
+      $query1 = DB::table('variants');
       // $query1 = $query1->leftJoin('sizes', 'sizes.id', '=', 'products_attr.size_id');
       // $query1 = $query1->leftJoin('colors', 'colors.id', '=', 'products_attr.color_id');
       $query1 = $query1->where(['variants.product_id' => $list1->id]);
@@ -301,27 +303,21 @@ foreach($result['home_featured_product'] as $list1){
 
   public function checkout(Request $request)
   {
+    // return "i am her";
     $result['cart_data'] = getAddToCartTotalItem();
     if (isset($result['cart_data'][0])) { #if cart have value than enter inside if condition;
-
       $user = Auth::user()->name;
-      return $user;
+      // return $user;
       if (Auth::check()) {
         $customer_info = Auth::user();
-        // $uid = $request->session()->get('FRONT_USER_ID');
-        // $customer_info = DB::table('customers')
-        //   ->where(['id' => $uid])
-        //   ->get();
-
         $result['customers']['name'] = $customer_info->name;
         $result['customers']['email'] = $customer_info->email;
         $result['customers']['mobile'] = $customer_info->mobile;
         $result['customers']['address'] = $customer_info->address;
         $result['customers']['city'] = $customer_info->city;
         $result['customers']['state'] = $customer_info->state;
-        $result['customers']['zip'] = $customer_info->zip;
-      } 
-      else {
+        $result['customers']['zip'] = $customer_info->pin_code;
+      } else {
         $result['customers']['name'] = '';
         $result['customers']['email'] = '';
         $result['customers']['mobile'] = '';
@@ -337,5 +333,136 @@ foreach($result['home_featured_product'] as $list1){
     }
   }
 
- 
+  public function place_order(Request $request)
+  {
+
+    // return 'send response';
+    // $payment_url = '';
+    // $rand_id = rand(111111111, 999999999);
+
+    // if ($request->session()->has('FRONT_USER_LOGIN')) {
+    // } else {
+    //   $valid = Validator::make($request->all(), [
+    //     "email" => 'required|email|unique:customers,email'
+    //   ]);
+
+    //   if (!$valid->passes()) {
+    //     return response()->json(['status' => 'error', 'msg' => "The email has already been taken"]);
+    //   } else {
+
+
+    //     $arr = [
+    //       "name" => $request->name,
+    //       "email" => $request->email,
+    //       "address" => $request->address,
+    //       "city" => $request->city,
+    //       "state" => $request->state,
+    //       "zip" => $request->zip,
+    //       "password" => Crypt::encrypt($rand_id),
+    //       "mobile" => $request->mobile,
+    //       "status" => 1,
+    //       "is_verify" => 1,
+    //       "rand_id" => $rand_id,
+    //       "created_at" => date('Y-m-d h:i:s'),
+    //       "updated_at" => date('Y-m-d h:i:s'),
+    //       "is_forgot_password" => 0
+    //     ];
+    //     $user_id = DB::table('customers')->insertGetId($arr);
+
+
+    //     $request->session()->put('FRONT_USER_LOGIN', true);
+    //     $request->session()->put('FRONT_USER_ID', $user_id);
+    //     $request->session()->put('FRONT_USER_NAME', $request->name);
+
+    //     $data = ['name' => $request->name, 'password' => $rand_id];
+    //     $user['to'] = $request->email;
+    //     Mail::send('front/password_send', $data, function ($messages) use ($user) {
+    //       $messages->to($user['to']);
+    //       $messages->subject('New Password');
+    //     });
+
+    //     $getUserTempId = getUserTempId();
+    //     DB::table('cart')
+    //       ->where(['user_id' => $getUserTempId, 'user_type' => 'Not-Reg'])
+    //       ->update(['user_id' => $user_id, 'user_type' => 'Reg']);
+    //   }
+    // }
+    // $coupon_value = 0;
+    // if ($request->coupon_code != '') {
+    //   $arr = apply_coupon_code($request->coupon_code);
+    //   $arr = json_decode($arr, true);
+    //   if ($arr['status'] == 'success') {
+    //     $coupon_value = $arr['coupon_code_value'];
+    //   } else {
+    //     return response()->json(['status' => 'false', 'msg' => $arr['msg']]);
+    //   }
+    // }
+
+
+    // $uid = $request->session()->get('FRONT_USER_ID');
+    //Start Cash On Delivery;
+
+
+    $uid = Auth::user()->id;
+    $totalPrice = 0;
+    $getAddToCartTotalItem = getAddToCartTotalItem(); #get detail from cart table and get total;
+    foreach ($getAddToCartTotalItem as $list) {
+      $totalPrice = $totalPrice + ($list->qty * $list->price);
+    }
+    $arr = [
+      "user_id" => $uid,
+      "name" => $request->name,
+      "email" => $request->email,
+      "mobile" => $request->mobile,
+      "address" => $request->address,
+      "city" => $request->city,
+      "state" => $request->state,
+      "pin_code" => $request->zip,
+      "payment_type" => $request->payment_type,
+      "payment_status" => "Pending",
+      "total_amount" => $totalPrice,
+      "order_status" => "Pending",
+      "payment_id"   =>0,
+     ];
+     $order_id = DB::table('orders')->insertGetId($arr);
+
+    //  return "Done";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if ($order_id > 0) {
+      foreach ($getAddToCartTotalItem as $list) {
+        $prductDetailArr['product_id'] = $list->pid;
+        $prductDetailArr['variant_id'] = $list->attr_id;
+        $prductDetailArr['price'] = $list->price;
+        $prductDetailArr['qty'] = $list->qty;
+        $prductDetailArr['order_id'] = $order_id;
+        OrderDetails::create($prductDetailArr);
+        // DB::table('orders_details')->insert($prductDetailArr);
+      }
+
+
+    //   DB::table('cart')->where(['user_id' => $uid, 'user_type' => 'Reg'])->delete();
+    //   $request->session()->put('ORDER_ID', $order_id);
+
+    //   $status = "success";
+    //   $msg = "Order placed";
+    // } else {
+    //   $status = "false";
+    //   $msg = "Please try after sometime";
+    // }
+    // return response()->json(['status' => $status, 'msg' => $msg, 'payment_url' => $payment_url]);
+  }
+  }
 }

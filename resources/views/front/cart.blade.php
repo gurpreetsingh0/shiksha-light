@@ -52,7 +52,7 @@
                       @endforeach
                       <tr>
                         <td colspan="6" class="aa-cart-view-bottom">
-                          <a class="aa-checkbox-checkout aa-primary-btn" href="{{url('/checkout')}}"> 
+                          <a class="aa-checkbox-checkout aa-primary-btn" href="{{route('front.checkout')}}"> 
                           <input class="aa-cart-view-btn" type="button" value="Checkout">
                           </a>
                         </td>

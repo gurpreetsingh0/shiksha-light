@@ -237,15 +237,15 @@ jQuery(function ($) {
 
     jQuery(function () {
         if ($("body").is(".productPage")) {
-          var skipSlider = document.getElementById("skipstep");
-          
-                 var filter_price_start = jQuery("#filter_price_start").val();
-                 var filter_price_end = jQuery("#filter_price_end").val();
+            var skipSlider = document.getElementById("skipstep");
 
-                 if (filter_price_start == "" || filter_price_end == "") {
-                     var filter_price_start = 100;
-                     var filter_price_end = 1700;
-                 }
+            var filter_price_start = jQuery("#filter_price_start").val();
+            var filter_price_end = jQuery("#filter_price_end").val();
+
+            if (filter_price_start == "" || filter_price_end == "") {
+                var filter_price_start = 100;
+                var filter_price_end = 1700;
+            }
             noUiSlider.create(skipSlider, {
                 range: {
                     min: 0,
@@ -373,8 +373,7 @@ function change_product_wattage_image(img, wattage) {
 
 // store data in data base
 function add_to_cart(product_id, wattage_str) {
-
-  // alert(product_id);
+    // alert(product_id);
     var wattage = $("#wattage").val();
 
     if (wattage_str == 0) {
@@ -424,7 +423,7 @@ function add_to_cart(product_id, wattage_str) {
                     totalPrice +
                     "</span></li>";
                 html +=
-                    '</ul><a class="aa-cartbox-checkout aa-primary-btn" href="checkout">Checkout</a>';
+                    '</ul><a class="aa-cartbox-cart aa-primary-btn" href="cart">Cart</a>';
                 console.log(html);
                 jQuery(".aa-cartbox-summary").html(html);
             },
@@ -450,20 +449,18 @@ function deleteCartProduct(pid, wattage, attr_id) {
     jQuery("#cart_box" + attr_id).hide();
 }
 
-
 function home_add_to_cart(id, wattage) {
     jQuery("#wattage").val(wattage);
-    add_to_cart(id,wattage);
+    add_to_cart(id, wattage);
 }
 
 function sort_by() {
-  var sort_by_value = jQuery("#sort_by_value").val();
-  jQuery("#sort").val(sort_by_value);
-  
-  // send data query param in server
+    var sort_by_value = jQuery("#sort_by_value").val();
+    jQuery("#sort").val(sort_by_value);
+
+    // send data query param in server
     jQuery("#categoryFilter").submit();
 }
-
 
 function sort_price_filter() {
     jQuery("#filter_price_start").val(jQuery("#skip-value-lower").html());
@@ -472,61 +469,35 @@ function sort_price_filter() {
 }
 
 function showWattage(wattage) {
-  // $(".product_cct").hide();
-  // $(".wattage_"+wattage).show();
+    // $(".product_cct").hide();
+    // $(".wattage_"+wattage).show();
 
-  $("#wattage").val(wattage);
+    $("#wattage").val(wattage);
 }
 
-
-
-
+jQuery("#frmPlaceOrder").submit(function (e) {
+    jQuery("#order_place_msg").html("Please wait...");
+    e.preventDefault();
+    jQuery.ajax({
+        url: "/place_order",
+        data: jQuery("#frmPlaceOrder").serialize(),
+        type: "post",
+        success: function (result) {
+            if (result.status == "success") {
+                if (result.payment_url != "") {
+                    window.location.href = result.payment_url;
+                } else {
+                    window.location.href = "/order_placed";
+                }
+            }
+            jQuery("#order_place_msg").html(result.msg);
+        },
+    });
+});
 
 // function showCCT() {
 //   alert('test-cct');
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // function home_add_to_cart(id, wattage) {
 //     var wattage_field_value = $("#set_wattage_value").val(wattage);

@@ -25,6 +25,8 @@ Route::middleware($front_back_middleware)->group(function () {
   Route::post('/add-to-cart', [FrontController::class, 'AddToCart'])->name('front.add_to_cart');
   Route::get('/category/{id}', [FrontController::class, 'category'])->name('front.category');
   Route::get('/checkout', [FrontController::class, 'checkout'])->name('front.checkout');
+  Route::post('place_order', [FrontController::class, 'place_order']);
+
 
   #cart route;
   Route::get('/cart', [FrontController::class, 'cart'])->name('front.view.cart');
@@ -36,7 +38,7 @@ Route::middleware($back_end_middleware)->group(function () {
   })->name('admin.dashboard');
 });
 
- 
+
 Route::get('/test', function () {
   return view('admin.test');
 });
