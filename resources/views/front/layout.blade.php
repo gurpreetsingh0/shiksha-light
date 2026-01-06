@@ -94,10 +94,9 @@
               <!-- / header top left -->
               <div class="aa-header-top-right">
                 <ul class="aa-head-top-nav-right">
-                  <li><a href="javascript:void(0)">My Account</a></li>
+                  <li><a href="{{route('front.my_order')}}">My Order</a></li>
                   
                   <li class="hidden-xs"><a href="{{route('front.view.cart')}}">My Cart</a></li>
-                  <li class="hidden-xs"><a href="javascript:void(0)">Checkout</a></li>
                   <li><a href="" data-toggle="modal" data-target="#login-modal">Login</a></li>
                 </ul>
               </div>

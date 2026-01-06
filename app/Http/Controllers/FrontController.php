@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\OrderDetails;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -333,136 +335,83 @@ class FrontController extends Controller
     }
   }
 
+
   public function place_order(Request $request)
   {
+    DB::beginTransaction(); // 🔹 start transaction
 
-    // return 'send response';
-    // $payment_url = '';
-    // $rand_id = rand(111111111, 999999999);
+    try {
+      $uid = Auth::id();
+      $totalPrice = 0;
+      $getAddToCartTotalItem = getAddToCartTotalItem(); #get detail from cart table and get total;
 
-    // if ($request->session()->has('FRONT_USER_LOGIN')) {
-    // } else {
-    //   $valid = Validator::make($request->all(), [
-    //     "email" => 'required|email|unique:customers,email'
-    //   ]);
-
-    //   if (!$valid->passes()) {
-    //     return response()->json(['status' => 'error', 'msg' => "The email has already been taken"]);
-    //   } else {
-
-
-    //     $arr = [
-    //       "name" => $request->name,
-    //       "email" => $request->email,
-    //       "address" => $request->address,
-    //       "city" => $request->city,
-    //       "state" => $request->state,
-    //       "zip" => $request->zip,
-    //       "password" => Crypt::encrypt($rand_id),
-    //       "mobile" => $request->mobile,
-    //       "status" => 1,
-    //       "is_verify" => 1,
-    //       "rand_id" => $rand_id,
-    //       "created_at" => date('Y-m-d h:i:s'),
-    //       "updated_at" => date('Y-m-d h:i:s'),
-    //       "is_forgot_password" => 0
-    //     ];
-    //     $user_id = DB::table('customers')->insertGetId($arr);
-
-
-    //     $request->session()->put('FRONT_USER_LOGIN', true);
-    //     $request->session()->put('FRONT_USER_ID', $user_id);
-    //     $request->session()->put('FRONT_USER_NAME', $request->name);
-
-    //     $data = ['name' => $request->name, 'password' => $rand_id];
-    //     $user['to'] = $request->email;
-    //     Mail::send('front/password_send', $data, function ($messages) use ($user) {
-    //       $messages->to($user['to']);
-    //       $messages->subject('New Password');
-    //     });
-
-    //     $getUserTempId = getUserTempId();
-    //     DB::table('cart')
-    //       ->where(['user_id' => $getUserTempId, 'user_type' => 'Not-Reg'])
-    //       ->update(['user_id' => $user_id, 'user_type' => 'Reg']);
-    //   }
-    // }
-    // $coupon_value = 0;
-    // if ($request->coupon_code != '') {
-    //   $arr = apply_coupon_code($request->coupon_code);
-    //   $arr = json_decode($arr, true);
-    //   if ($arr['status'] == 'success') {
-    //     $coupon_value = $arr['coupon_code_value'];
-    //   } else {
-    //     return response()->json(['status' => 'false', 'msg' => $arr['msg']]);
-    //   }
-    // }
-
-
-    // $uid = $request->session()->get('FRONT_USER_ID');
-    //Start Cash On Delivery;
-
-
-    $uid = Auth::user()->id;
-    $totalPrice = 0;
-    $getAddToCartTotalItem = getAddToCartTotalItem(); #get detail from cart table and get total;
-    foreach ($getAddToCartTotalItem as $list) {
-      $totalPrice = $totalPrice + ($list->qty * $list->price);
-    }
-    $arr = [
-      "user_id" => $uid,
-      "name" => $request->name,
-      "email" => $request->email,
-      "mobile" => $request->mobile,
-      "address" => $request->address,
-      "city" => $request->city,
-      "state" => $request->state,
-      "pin_code" => $request->zip,
-      "payment_type" => $request->payment_type,
-      "payment_status" => "Pending",
-      "total_amount" => $totalPrice,
-      "order_status" => "Pending",
-      "payment_id"   =>0,
-     ];
-     $order_id = DB::table('orders')->insertGetId($arr);
-
-    //  return "Done";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    if ($order_id > 0) {
       foreach ($getAddToCartTotalItem as $list) {
-        $prductDetailArr['product_id'] = $list->pid;
-        $prductDetailArr['variant_id'] = $list->attr_id;
-        $prductDetailArr['price'] = $list->price;
-        $prductDetailArr['qty'] = $list->qty;
-        $prductDetailArr['order_id'] = $order_id;
-        OrderDetails::create($prductDetailArr);
-        // DB::table('orders_details')->insert($prductDetailArr);
+        $totalPrice = $totalPrice + ($list->qty * $list->price);
       }
 
+      $orderArray = [
+        "user_id" => $uid,
+        "name" => $request->name,
+        "email" => $request->email,
+        "mobile" => $request->mobile,
+        "address" => $request->address,
+        "city" => $request->city,
+        "state" => $request->state,
+        "pin_code" => $request->zip,
+        "payment_type" => $request->payment_type,
+        "payment_status" => "Pending",
+        "total_amount" => $totalPrice,
+        "order_status" => "Pending",
+        "payment_id"   => 0,
+      ];
 
-    //   DB::table('cart')->where(['user_id' => $uid, 'user_type' => 'Reg'])->delete();
-    //   $request->session()->put('ORDER_ID', $order_id);
+      $order = Order::create($orderArray);
+      $order_id = $order->id;
 
-    //   $status = "success";
-    //   $msg = "Order placed";
-    // } else {
-    //   $status = "false";
-    //   $msg = "Please try after sometime";
-    // }
-    // return response()->json(['status' => $status, 'msg' => $msg, 'payment_url' => $payment_url]);
+      if ($order_id > 0) {
+        foreach ($getAddToCartTotalItem as $list) {
+          $prductDetailArr['product_id'] = $list->pid;
+          $prductDetailArr['variant_id'] = $list->attr_id;
+          $prductDetailArr['price'] = $list->price;
+          $prductDetailArr['qty'] = $list->qty;
+          $prductDetailArr['order_id'] = $order_id;
+          OrderDetails::create($prductDetailArr);
+        }
+
+        //empty cart if order placed
+        Cart::where('user_id', $uid)->delete();
+        $request->session()->put('ORDER_ID', $order_id);
+
+        DB::commit(); // 🔹 success → save everything
+
+        $status = "success";
+        $msg = "Order placed";
+      } else {
+        DB::rollBack(); // 🔹 failure → undo everything
+
+        $status = "false";
+        $msg = "Please try after sometime";
+      }
+    } catch (\Exception $e) {
+      DB::rollBack(); // 🔹 error → undo everything
+
+      $status = "false";
+      $msg = "Please try after sometime";
+      // logger($e->getMessage()); // optional
+    }
+
+    return response()->json(['status' => $status, 'msg' => $msg]);
   }
+  public function order_placed(Request $request)
+  {
+    if ($request->session()->has('ORDER_ID')) {
+      return view('front.order_placed');
+    } else {
+      return redirect('/');
+    }
+  }
+
+  public function my_order(){
+    return "Test";
   }
 }

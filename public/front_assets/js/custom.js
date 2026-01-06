@@ -423,7 +423,7 @@ function add_to_cart(product_id, wattage_str) {
                     totalPrice +
                     "</span></li>";
                 html +=
-                    '</ul><a class="aa-cartbox-cart aa-primary-btn" href="cart">Cart</a>';
+                    '</ul><a class="aa-cartbox-cart aa-primary-btn" href="/cart">Cart</a>';
                 console.log(html);
                 jQuery(".aa-cartbox-summary").html(html);
             },
@@ -484,11 +484,11 @@ jQuery("#frmPlaceOrder").submit(function (e) {
         type: "post",
         success: function (result) {
             if (result.status == "success") {
-                if (result.payment_url != "") {
-                    window.location.href = result.payment_url;
-                } else {
+                // if (result.payment_url != "") {
+                //     window.location.href = result.payment_url;
+                // } else {
                     window.location.href = "/order_placed";
-                }
+                // }
             }
             jQuery("#order_place_msg").html(result.msg);
         },
