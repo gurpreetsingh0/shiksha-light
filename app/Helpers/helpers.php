@@ -136,7 +136,29 @@ function getDataHelper($table_name, $where_condition_array)
 }
 
 
-//format date
+
+
+if (!function_exists('dmyTimeHelper')) {
+  function dmyTimeHelper($date)
+  {
+    if (!$date) {
+      return null;
+    }
+
+    // If already Carbon (Eloquent date)
+    if ($date instanceof Carbon) {
+      return $date->timezone('Asia/Kolkata')
+        ->format('d-m-Y h:i A');
+    }
+
+    // If string (fallback)
+    return Carbon::createFromFormat('Y-m-d H:i:s', $date, 'UTC')
+      ->timezone('Asia/Kolkata')
+      ->format('d-m-Y h:i A');
+  }
+}
+
+
 
 if (!function_exists('dmyHelper')) {
   function dmyHelper($date)

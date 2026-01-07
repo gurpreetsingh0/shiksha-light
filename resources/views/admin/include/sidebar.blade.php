@@ -102,6 +102,15 @@
                   </div> --}}
                </div> 
 
+               <!--Order Section -->
+              <div class="nav-item {{ ($segment1 == 'file-manager') ? 'active open' : '' }}">
+                    <a href="{{route('admin.order')}}"><i class="ik ik-shopping-cart"></i><span>{{ __('Order')}}</span></a>
+                  {{-- <div class="submenu-content">
+                            <a href="{{route('admin.banner')}}" class="menu-item {{ ($segment1 == 'customers') ? 'active' : '' }}">{{ __('List')}}</a>
+                  </div> --}}
+               </div> 
+               <!-- End Order Section -->
+
 
 
 

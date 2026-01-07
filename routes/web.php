@@ -7,6 +7,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -27,8 +28,9 @@ Route::middleware($front_back_middleware)->group(function () {
   Route::get('/checkout', [FrontController::class, 'checkout'])->name('front.checkout');
   Route::post('place_order', [FrontController::class, 'place_order']);
   Route::get('/order_placed', [FrontController::class, 'order_placed']);
-  Route::get('/order', [FrontController::class, 'order'])->name('front.my_order');
-  Route::get('/order-detail/{id}', [FrontController::class, 'order_detail'])->name('front.my_order');
+
+  Route::get('/order', [FrontController::class, 'order'])->name('front.order');
+  Route::get('/order-detail/{id}', [FrontController::class, 'order_detail'])->name('front.order_detail');
 
 
   #cart route;
@@ -169,6 +171,17 @@ Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
   #edition route
   Route::get('/color/edit/{id}', [ColorController::class, 'edit'])->name('admin.color.edit');
   Route::patch('/color/update', [ColorController::class, 'update'])->name('admin.color.update');
+});
+
+#order section
+Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
+  Route::get('/order', [OrderController::class, 'index'])->name('admin.order');
+  Route::post('/order/store', [OrderController::class, 'store'])->name('admin.order.store');
+  Route::get('/order/get-list', [OrderController::class, 'getList'])->name('admin.order.list');
+  Route::delete('/order/delete/{id}', [OrderController::class, 'delete'])->name('admin.order.delete');
+  #edition route
+  Route::get('/order/edit/{id}', [OrderController::class, 'edit'])->name('admin.order.edit');
+  Route::patch('/order/update', [OrderController::class, 'update'])->name('admin.order.update');
 });
 
 
