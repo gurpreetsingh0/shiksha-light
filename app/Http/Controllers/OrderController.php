@@ -13,13 +13,22 @@ class OrderController extends Controller
 {
   public function index()
   {
-     return view('admin.order.index');
+    return view('admin.order.index');
   }
 
   public function getList()
   {
     $query = Order::get();
     return DataTables::of($query)
+      ->addIndexColumn()
+
+
+      // ->editColumn('order_detail', function ($data) {
+      //   return '<a href="' . route('admin.order.detail', $data->id) . '">
+      //         ' . $data->DT_RowIndex . '
+      //       </a>';
+      // })
+
       ->editColumn('customer_detail', function ($data) {
         return '
         <strong>' . $data->name . '</strong><br>
@@ -40,25 +49,51 @@ class OrderController extends Controller
     ';
       })
 
-      ->editColumn('created_at',function($data){
+      ->editColumn('created_at', function ($data) {
         return dmyHelper($data->created_at);
       })
- 
 
       ->addColumn('action', function ($data) {
-        return '
-        <a data-id="' . $data->id . '" href="javascript:void(0)" 
-        class="edit_btn
-        title="Edit">
-            <i class="ik ik-edit f-16 mr-15 text-green"></i>
+
+        return '<div class="dropdown d-inline-block">
+        <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="ik ik-more-vertical"></i>
         </a>
-        <a href="javascript:void(0);" 
-           class="delete_btn" 
-           data-id="' . $data->id . '" 
-           title="Delete">
-            <i class="ik ik-trash-2 f-16 text-red"></i>
-        </a>';
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#"><i class="ik ik-edit"></i> Edit </a>
+            <a class="dropdown-item" href="#InvoiceModal" data-toggle="modal" data-target="#InvoiceModal">
+              <i class="ik ik-file-text"></i> 
+              Preveiw Invoice
+          </a>
+          <a class="dropdown-item">
+              <i class="ik ik-printer"></i> 
+              Invoice POS
+          </a>
+          <a class="dropdown-item">
+              <i class="ik ik-mail"></i> 
+              Send on Email
+          </a>
+            
+            <a class="dropdown-item" href="#">
+              <i class="ik ik-trash"></i> Delete </a>
+        </div>
+    </div>';
       })
+
+      // ->addColumn('action', function ($data) {
+      //   return '
+      //   <a data-id="' . $data->id . '" href="javascript:void(0)" 
+      //   class="edit_btn
+      //   title="Edit">
+      //       <i class="ik ik-edit f-16 mr-15 text-green"></i>
+      //   </a>
+      //   <a href="javascript:void(0);" 
+      //      class="delete_btn" 
+      //      data-id="' . $data->id . '" 
+      //      title="Delete">
+      //       <i class="ik ik-trash-2 f-16 text-red"></i>
+      //   </a>';
+      // })
       ->editColumn('status', function ($data) {
         if ($data->status == 1) {
           return "Active";
@@ -66,13 +101,13 @@ class OrderController extends Controller
           return "Deactive";
         }
       })
-      ->addColumn('checkbox', function ($data) {
-        return '<label class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input select_all_child" id="" name="" value="option2">
-          <span class="custom-control-label">&nbsp;</span>
-        </label>';
-      })
-      ->rawColumns(['address_detail','customer_detail','checkbox', 'action'])
+      // ->addColumn('checkbox', function ($data) {
+      //   return '<label class="custom-control custom-checkbox">
+      //     <input type="checkbox" class="custom-control-input select_all_child" id="" name="" value="option2">
+      //     <span class="custom-control-label">&nbsp;</span>
+      //   </label>';
+      // })
+      ->rawColumns(['order_detail','address_detail', 'customer_detail', 'checkbox', 'action'])
       ->make(true);
   }
 
@@ -123,5 +158,10 @@ class OrderController extends Controller
       MessageFlashHelper('error', 'Something Went Wrong!');
       return redirect()->back();
     }
+  }
+
+  public  function order_detail($id)
+  {
+    return 'i am here';
   }
 }

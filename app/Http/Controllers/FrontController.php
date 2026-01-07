@@ -368,7 +368,7 @@ class FrontController extends Controller
       $order = Order::create($orderArray);
 
 
-      
+
       $order_id = $order->id;
       if ($order_id > 0) {
         foreach ($getAddToCartTotalItem as $list) {
@@ -421,16 +421,19 @@ class FrontController extends Controller
   }
   public function order_detail(Request $request, $id)
   {
-    $orders_details = OrderDetails::where('order_id',$id)
-   ->with('order')
-   ->with('product')
-   ->with('variant')
-   ->where('order_id',$id)
-   ->get();
-    if (count($orders_details)==false) {
+    $logged_user_id = Auth::id();
+
+    $orders_details = OrderDetails::with(['order', 'product', 'variant'])
+      ->where('order_id', $id)
+      ->whereHas('order', function ($q) use ($logged_user_id) {
+        $q->where('user_id', $logged_user_id);
+      })
+      ->get();
+
+    if ($orders_details->isEmpty()) {
       return redirect('/');
     }
-    // return $order_detail;
-    return view('front.order_detail',compact('orders_details'));
+
+    return view('front.order_detail', compact('orders_details'));
   }
 }

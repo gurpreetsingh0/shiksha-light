@@ -34,7 +34,7 @@
                         <div class="panel-heading">
                           <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion">
-                              User Details Address
+                              Billing Details Address
                             </a>
                           </h4>
                         </div>
@@ -121,7 +121,7 @@
                                 {{-- <br/>
                           <span class="cart_color">{{$list->color}}</span> --}}
                               </td>
-                              <td>{{ $list->price * $list->qty }}</td>
+                              <td>&#x20B9;{{ $list->price * $list->qty }}</td>
                             </tr>
                           @endforeach
                         </tbody>
@@ -132,7 +132,7 @@
                         </tr> --}}
                           <tr>
                             <th>Total</th>
-                            <td id="total_price">INR {{ $totalPrice }}</td>
+                            <td id="total_price"><b>&#x20B9;{{ $totalPrice }}</b></td>
                           </tr>
                         </tfoot>
                       </table>

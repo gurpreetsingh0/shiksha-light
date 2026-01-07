@@ -20,7 +20,7 @@
      <div class="row">
       <div class="col-md-6">
         <div class="order_detail">
-            <h3>Details Address</h3>
+            <h3>Billing Address</h3>
              {{$orders_details[0]->order->name}} ({{$orders_details[0]->order->mobile}}) <br/>{{$orders_details[0]->order->address}}<br/>{{$orders_details[0]->order->city}}</br>{{$orders_details[0]->order->state}}</br/>{{$orders_details[0]->order->pincode}}
           </div> 
       </div>
@@ -80,9 +80,13 @@
                     <tbody>
                      @php 
                      $totalAmt=0;
+                     $total_qty = 0;
                      @endphp
                      @foreach($orders_details as $list)
+                    
+
                      @php 
+                     $total_qty=$total_qty+$list->qty;
                      $totalAmt=$totalAmt+($list->price*$list->qty);
                      @endphp
                      <tr>
@@ -94,12 +98,22 @@
                         <td>&#x20B9;{{$list->price*$list->qty}}</td>
                       </tr>
                      @endforeach
-                     <tr>
+                     {{-- <tr>
                         <td colspan="5">&nbsp;</td>
                         <td><b>Total</b></td>
                         <td><b>&#x20B9;{{$totalAmt}}</b></td>
+                      </tr> --}}
+                     <tr>
+                        <td colspan="3">&nbsp;</td>
+                        <td><b>Total</b></td>
+                        <td><b>{{$total_qty}} </b></td>
+                        <td><b>&#x20B9;{{$totalAmt}}</b></td>
                       </tr>
-                      <?php
+
+
+
+
+                      @php
                       // if($orders_details[0]->coupon_value>0){
                       //   echo '<tr>
                       //     <td colspan="5">&nbsp;</td>
@@ -115,7 +129,7 @@
                       // }
                       
                       
-                      ?>
+                      @endphp
                     </tbody>
                   </table>
                 </div>

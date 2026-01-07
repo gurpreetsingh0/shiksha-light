@@ -64,13 +64,14 @@
               <table id="my-datatable" class="table">
                 <thead>
                   <tr>
-                    <th class="nosort" width="10">
+                    {{-- <th class="nosort" width="10">
                       <label class="custom-control custom-checkbox m-0">
                         <input type="checkbox" class="custom-control-input" id="selectall" name=""
                           value="option2">
                         <span class="custom-control-label">&nbsp;</span>
                       </label>
-                    </th>
+                    </th> --}}
+                    <th>No</th>
                      <th>Customer Detail</th>
                      <th>Address Detail</th>
                      <th>Total Amount</th>

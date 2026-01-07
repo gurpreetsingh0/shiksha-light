@@ -176,6 +176,7 @@ Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
 #order section
 Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
   Route::get('/order', [OrderController::class, 'index'])->name('admin.order');
+  Route::get('/order/order-detail/{id}', [OrderController::class, 'order_detail'])->name('admin.order.detail');
   Route::post('/order/store', [OrderController::class, 'store'])->name('admin.order.store');
   Route::get('/order/get-list', [OrderController::class, 'getList'])->name('admin.order.list');
   Route::delete('/order/delete/{id}', [OrderController::class, 'delete'])->name('admin.order.delete');

@@ -35,7 +35,12 @@
                     <tbody>
                       @foreach($orders as $list)
                       <tr>
-                        <td class="order_id_btn"><a href="{{route('front.order_detail',$list->id)}}">{{$loop->iteration}}</a></td>
+                    <td class="text-center">
+                      <a href="{{ route('front.order_detail', $list->id) }}"
+                        class="btn btn-sm btn-primary d-inline-flex align-items-center gap-1">
+                        <i class="ik ik-eye"></i> View Order
+                      </a>
+                    </td>
                         <td>{{$list->order_status}}</td>
                         <td>{{$list->payment_status}}</td>
                         <td>{{$list->total_amount}}</td>

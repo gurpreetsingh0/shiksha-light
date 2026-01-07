@@ -22,11 +22,8 @@
             }
           },
           "columns": [
-            {
-              data: 'checkbox',
-              name: 'checkbox'
-            },
-            
+               { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+    // { data: 'order_detail', name: 'order_detail' },
             {
               data: 'customer_detail',
               name: 'customer_detail'

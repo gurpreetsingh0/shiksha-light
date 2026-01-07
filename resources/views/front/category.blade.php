@@ -2,6 +2,7 @@
 @section('page_title','Category')
 @section('container')
 
+
   <!-- product category -->
 <section id="aa-product-category">
    <div class="container">
@@ -45,7 +46,7 @@
                             <figcaption>
                               <h4 class="aa-product-title"><a href="{{url('product/'.$productArr->slug)}}">{{$productArr->title}}</a></h4>
                               <span class="aa-product-price">Rs {{$product_attr[$productArr->id][0]->price}}</span><span class="aa-product-price"><del>Rs {{$product_attr[$productArr->id][0]->mrp}}</del></span>
-                            </figcaption>
+                            </figcaption> 
                           </figure>                          
                         </li>  
                         @endforeach    
