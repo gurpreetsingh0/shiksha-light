@@ -487,7 +487,7 @@ jQuery("#frmPlaceOrder").submit(function (e) {
                 // if (result.payment_url != "") {
                 //     window.location.href = result.payment_url;
                 // } else {
-                    window.location.href = "/order_placed";
+                    window.location.href = `/order-detail/${result.order_id}`;
                 // }
             }
             jQuery("#order_place_msg").html(result.msg);

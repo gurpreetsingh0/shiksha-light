@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetails;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,6 +82,11 @@ class FrontController extends Controller
 
   public function product(Request $request, $slug)
   {
+ 
+    $product = Product::where(['slug'=>$slug,'status'=>1])
+    ->with(['category', 'gallary_images', 'variants'])
+    ->get();
+
 
     // return $slug;
     $result['product'] =
@@ -143,6 +149,7 @@ class FrontController extends Controller
 
     // prx($result);
     return view('front.product', $result);
+    // return view('front.product',compact('product'));
   }
 
   public function AddToCart(Request $request)
@@ -402,7 +409,7 @@ class FrontController extends Controller
       // logger($e->getMessage()); // optional
     }
 
-    return response()->json(['status' => $status, 'msg' => $msg]);
+    return response()->json(['status' => $status, 'msg' => $msg,'order_id'=> $order_id]);
   }
   public function order_placed(Request $request)
   {
