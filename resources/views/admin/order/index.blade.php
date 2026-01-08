@@ -18,7 +18,7 @@
             <nav class="breadcrumb-container" aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                  <a href="/dashboard"><i class="ik ik-home"></i></a>
+                  <a href="{{route('admin.dashboard') }}"><i class="ik ik-home"></i></a>
                 </li>
                 <li class="breadcrumb-item">
                   <a href="#">Order</a>
@@ -29,34 +29,34 @@
         </div>
       </div>
       <div class="row">
-      @include('admin.order.create')
+      {{-- @include('admin.order.create') --}}
         <!-- list layout 1 start -->
         <div class="col-md-12">
           <div class="card">
             <div class="card-header row">
               <div class="col col-sm-1">
                 <div class="card-options d-inline-block">
-                  <div class="dropdown d-inline-block">
+                  {{-- <div class="dropdown d-inline-block">
                     <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button"
                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
                         class="ik ik-more-horizontal"></i></a>
-                    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="moreDropdown">
+                      <div class="dropdown-menu dropdown-menu-left" aria-labelledby="moreDropdown">
                       <a class="dropdown-item" href="#">Delete</a>
                       <a class="dropdown-item" href="#">More Action</a>
                     </div>
-                  </div>
+                  </div> --}}
                 </div>
               </div>
               <div class="col col-sm-6">
               @include('admin.order.search')
-              @include('admin.order.edit',['modal_header'=>'Edit Order','heder_font'=>'shopping-cart'])
+              @include('admin.order.edit',['modal_header'=>'Edit Order','heder_font'=>'ik-shopping-cart'])
               </div>
               <div class="col col-sm-5">
                 <div class="card-options text-right">
-                  <a href="javascript:void(0)" class="btn btn-outline-primary btn-semi-rounded" data-toggle="modal"
+                  {{-- <a href="javascript:void(0)" class="btn btn-outline-primary btn-semi-rounded" data-toggle="modal"
                     data-target="#addBannerModal">
                     Add Order
-                  </a>
+                  </a> --}}
                 </div>
               </div>
             </div>

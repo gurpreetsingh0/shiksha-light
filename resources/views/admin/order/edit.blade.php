@@ -15,33 +15,46 @@
 
 
           <div class="modal-body">
-            <form action="{{ route('admin.color.update') }}" method="POST">
+            <form action="{{ route('admin.order.update') }}" method="POST">
               @csrf
               @method('PATCH')
               <input name="edit_id" type="hidden" class="edit_id">
-              <div class="form-group">
+              {{-- <div class="form-group">
                 <label>Name</label>
                 <input name="name" class="form-control edit_name">
-              </div>
+              </div> --}}
 
               <div class="form-group">
+              <label for="order_status">Order Status</label>
+              <select class="form-control" id="order_status" name="order_status">
+                  <option value="pending">Pending</option>
+                  <option value="processing">Processing</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="packed">Packed</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="out_for_delivery">Out for Delivery</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="cancelled">Cancelled</option>
+                  <option value="payment_failed">Payment Failed</option>
+                  <option value="returned">Returned</option>
+                  <option value="refunded">Refunded</option>
+              </select>
+          </div>
+
+              {{-- <div class="form-group">
                 <label>Status</label>
                 <select name="status" class="form-control edit_status">
                   <option value="">Choose Status</option>
                   <option value="1">Active</option>
                   <option value="0">Deactive</option>
                 </select>
-              </div>
+              </div> --}}
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Update Category</button>
+            <button type="submit" class="btn btn-primary">Update Order</button>
           </div>
-
           </form>
-
- 
-
         </div>
       </div>
     </div>
@@ -51,7 +64,11 @@
       <script>
         $(document).on('click', '.edit_btn', function(e) {
           e.preventDefault();
+
+ 
           var id = $(this).data('id');
+            // alert(id);
+
 
           if (!id) {
             console.error('ID not found');
@@ -62,7 +79,7 @@
           // Example 1: Open Bootstrap 4 modal
           $('#editModal').modal('show');
           // Example 2: Load data via AJAX (Laravel style)
-          var url = "{{ route('admin.color.edit', ':id') }}"
+          var url = "{{ route('admin.order.edit', ':id') }}"
           url = url.replace(':id', id);
 
           $.ajax({
@@ -76,7 +93,7 @@
               // alert('test edit');
               let data = response.data;
               $('.edit_id').val(data.id);
-              $('.edit_name').val(data.name);
+              $('.order_status').val(data.name);
               // $('.edit_category_id').val(data.category_id);
               // $('.edit_description').text(data.description);
               $('.edit_status').val(data.status);

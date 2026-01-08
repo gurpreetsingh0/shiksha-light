@@ -60,11 +60,12 @@ class OrderController extends Controller
           <i class="ik ik-more-vertical"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" href="#"><i class="ik ik-edit"></i> Edit </a>
+          <a class="dropdown-item edit_btn" data-id="' . $data->id . '" href="javascript:void(0)"><i class="ik ik-edit"></i> Edit </a>
             <a class="dropdown-item" href="#InvoiceModal" data-toggle="modal" data-target="#InvoiceModal">
               <i class="ik ik-file-text"></i> 
               Preveiw Invoice
           </a>
+          
           <a class="dropdown-item">
               <i class="ik ik-printer"></i> 
               Invoice POS
@@ -74,7 +75,7 @@ class OrderController extends Controller
               Send on Email
           </a>
             
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item delete_btn" data-id="'.$data->id.'" href="javascript:void(0)">
               <i class="ik ik-trash"></i> Delete </a>
         </div>
     </div>';
@@ -148,7 +149,7 @@ class OrderController extends Controller
   public function update(Request $request)
   {
     $formData = $request->except(['_token', '_method']);
-    $formData['slug'] = Str::slug($request->name);
+    // $formData['slug'] = Str::slug($request->name);
     $update = Order::find($request->edit_id)->update($formData);
 
     if ($update) {
@@ -164,4 +165,8 @@ class OrderController extends Controller
   {
     return 'i am here';
   }
+
+  // public function edit($id){
+  //   return  Order::find($id);
+  //  }
 }

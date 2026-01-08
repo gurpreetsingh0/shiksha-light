@@ -1,6 +1,9 @@
  @push('script')
   <script>
       $(document).on('click', '.delete_btn', function(e) {
+
+        // alert('deletd!!');
+
         e.preventDefault();
         Swal.fire({
           title: "Are you sure?",
@@ -13,7 +16,7 @@
         }).then((result) => {
           if (result.isConfirmed) {
             var _id = $(this).data('id'); // make sure 'this' is correct in context
-            url = "{{ route('admin.color.delete',':id') }}";
+            url = "{{ route('admin.order.delete',':id') }}";
             url = url.replace(':id', _id)
             $.ajax({
               url: url,
