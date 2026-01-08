@@ -27,16 +27,10 @@ return new class extends Migration
       $table->string('pin_code')->nullable();
       $table->string('state')->nullable();
       $table->string('payment_type')->nullable(); //cod//gateway
-      $table->enum('payment_status', ['pending', 'completed', 'failed'])->default('pending');
+      $table->string('payment_status');
       $table->string('payment_id')->nullable();
       $table->decimal('total_amount', 10, 2);
-      $table->enum('order_status', [
-        'pending',
-        'confirmed',
-        'shipped',
-        'delivered',
-        'cancelled'
-      ])->default('pending');
+      $table->string('order_status');
       $table->timestamps();
     });
   }

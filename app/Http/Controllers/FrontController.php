@@ -366,9 +366,9 @@ class FrontController extends Controller
         "state" => $request->state,
         "pin_code" => $request->zip,
         "payment_type" => $request->payment_type,
-        "payment_status" => "Pending",
+        "payment_status" => "pending",
         "total_amount" => $totalPrice,
-        "order_status" => "Pending",
+        "order_status" => "processing",
         "payment_id"   => 0,
       ];
 
