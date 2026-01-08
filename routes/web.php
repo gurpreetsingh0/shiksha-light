@@ -15,6 +15,8 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+#test
+#test222
 $front_back_middleware = ['auth', 'permission:frontend_shop|admin'];
 $back_end_middleware = ['auth', 'permission:admin'];
 
