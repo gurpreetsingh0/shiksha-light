@@ -371,11 +371,7 @@ class FrontController extends Controller
         "order_status" => "processing",
         "payment_id"   => 0,
       ];
-
       $order = Order::create($orderArray);
-
-
-
       $order_id = $order->id;
       if ($order_id > 0) {
         foreach ($getAddToCartTotalItem as $list) {
