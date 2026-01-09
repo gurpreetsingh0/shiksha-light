@@ -166,13 +166,10 @@ class OrderController extends Controller
     }
   }
 
-  public  function order_detail($id)
+  public function order_detail($id)
   {
-
-    return OrderDetails::with(['product','order','variant'])->where('order_id',$id)->get();
-
-
-    return view('admin.order.order_detail');
+    $order_detail = OrderDetails::with(['product','order','variant'])->where('order_id',$id)->get();
+    return view('admin.order.order_detail',compact('order_detail'));
   }
 
    

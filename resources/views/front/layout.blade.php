@@ -87,7 +87,7 @@
                 
                 <!-- start cellphone -->
                 <div class="cellphone hidden-xs">
-                  <p><span class="fa fa-phone"></span>00-62-658-658</p>
+                  <p><span class="fa fa-phone"></span>+91-9876543210</p>
                 </div>
                 <!-- / cellphone -->
               </div>

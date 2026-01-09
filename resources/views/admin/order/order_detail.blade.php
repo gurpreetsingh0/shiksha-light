@@ -3,17 +3,11 @@
 
 @push('head')
 <style>
-    .card {
-  border-radius: 8px;
-}
-.card-header {
-  font-weight: 600;
-}
-
+    
 </style>
 @endpush
 
-
+{{-- order_detail --}}
 
 
 @section('content')
@@ -36,10 +30,10 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-3"><strong>Order ID:</strong> #ORD-1023</div>
-        <div class="col-md-3"><strong>Date:</strong> 08 Jan 2026</div>
+        <div class="col-md-3"><strong>Order ID:</strong> {{$order_detail[0]->id}}</div>
+        <div class="col-md-3"><strong>Date:</strong> {{$order_detail[0]->created_at}}</div>
         <div class="col-md-3"><strong>Status:</strong>
-          <span class="badge badge-success">Completed</span>
+          <span class="badge badge-success">{{$order_detail[0]->order->order_status}}</span>
         </div>
         <div class="col-md-3"><strong>Payment:</strong>
           <span class="badge badge-info">Paid</span>

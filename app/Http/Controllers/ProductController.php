@@ -162,8 +162,8 @@ class ProductController extends Controller
 
   public function update(Request $request, $id)
   {
+    // return $request->all();
 
-    // return $id;
     DB::beginTransaction();
 
     try {
@@ -238,8 +238,9 @@ class ProductController extends Controller
             'color'          => $variant['color'] ?? null,
             'weight'         => $variant['weight'] ?? null,
 
-            'outer_dia'      => $variant['outer_dia'] ?? null,
-            'inner_cut'      => $variant['inner_cut'] ?? null,
+            'outer_diameter' => $variant['outer_diameter'] ?? null,
+            'inner_diameter' => $variant['inner_diameter'] ?? null,
+            'height'         => $variant['height'] ?? null,
 
             'mrp'            => $variant['mrp'] ?? null,
             'price'          => $variant['price'] ?? null,

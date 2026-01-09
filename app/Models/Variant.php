@@ -24,5 +24,8 @@ class Variant extends Model
     'stock',
     'image',
     'status',
+    'height',
+    'outer_diameter',
+    'inner_diameter'
   ];
 }

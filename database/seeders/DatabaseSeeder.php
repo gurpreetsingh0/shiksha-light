@@ -18,10 +18,11 @@ class DatabaseSeeder extends Seeder
     // User::factory(10)->create();
 
     $this->call([
-      RoleSeeder::class,
-      PermissionSeeder::class,
-      UserSeeder::class,
-      RolePermissionSeeder::class,
+      // RoleSeeder::class,
+      // PermissionSeeder::class,
+      // UserSeeder::class,
+      // RolePermissionSeeder::class,
+      OrderStatusSeeder::class
     ]);        // User::factory()->create([
     //     'name' => 'Test User',
     //     'email' => 'test@example.com',

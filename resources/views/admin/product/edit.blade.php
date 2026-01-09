@@ -173,6 +173,25 @@
     </div>
   </div>
 
+
+  <div class="row mb-2">
+    <div class="col-md-4">
+      <label>Outer Diameter</label>
+      <input value="{{$item->outer_diameter }}" type="number" step="0.01" class="form-control" name="variants[{{ $index }}][outer_diameter]">
+    </div>
+    <div class="col-md-4">
+      <label>Inner Diameter/Cut</label>
+      <input value="{{$item->inner_diameter }}" type="number" step="0.01" class="form-control" name="variants[{{ $index }}][inner_diameter]">
+    </div>
+    <div class="col-md-4">
+      <label>Height/Depth</label>
+      <input value="{{$item->height }}" type="number" step="0.01" class="form-control" name="variants[{{ $index }}][height]">
+    </div>
+  </div>
+
+
+
+
   <div class="row mb-2">
     <div class="col-md-3">
       <label>Wattage</label>
@@ -229,7 +248,7 @@
            <!-- Edit VARIANT -->
           <div class="mb-4 d-flex justify-content-between align-items-center">
             <button type="button" id="add-variant" class="btn btn-outline-primary shadow-sm">
-              <i class="ik ik-plus"></i> Update Variant
+              <i class="ik ik-plus"></i> Add Variant
             </button>
  
             <!-- SUBMIT -->

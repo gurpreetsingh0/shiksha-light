@@ -58,12 +58,12 @@
                     <div class="aa-price-block">
                       <span class="aa-product-view-price">Rs {{$product_attr[$product[0]->id][0]->price}}&nbsp;&nbsp;</span>
                       {{-- <span class="aa-product-view-price"><del>Rs {{$product_attr[$product[0]->id][0]->mrp}}</del></span> --}}
-                      <span class="aa-product-view-price"><del>Rs 5000</del></span>
+                      <span class="aa-product-view-price"><del>Rs {{$product_attr[$product[0]->id][0]->mrp}}</del></span>
                       <p class="aa-product-avilability">Avilability: <span>In stock</span></p>
 
                        @if(true)
                        <p class="lead_time">
-                        Mention Day How many take will it to delever 2 or 3 days
+                        {{-- Mention Day How many take will it to delever 2 or 3 days --}}
                         {{-- {{$product[0]->lead_time}} --}}
                        </p>
                        @endif 

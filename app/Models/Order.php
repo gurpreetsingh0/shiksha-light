@@ -21,4 +21,17 @@ class Order extends Model
     'order_status',
     'payment_id',
   ];
+
+  // public function users(){
+  //   return $this->belongTo(User::class);
+  // }
+
+      public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 }
+
+ 
