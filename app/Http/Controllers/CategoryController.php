@@ -92,19 +92,43 @@ class CategoryController extends Controller
 
     }
 
-    public function update(Request $request){
-      $formData = $request->except(['_token', '_method']);
-      $update=Category::find($request->edit_id);
-      $update->update($formData);
+private function generateSlug(Request $request)
+{
+    return $request->slug
+        ? Str::slug($request->slug)
+        : Str::slug($request->name);
+}
 
-      if($update){
-       MessageFlashHelper('success','Success, Category Updated Successfully!');
-       return redirect()->back();
-      }else{
-        MessageFlashHelper('error','Something went wrong');
-        return redirect()->back();
-      }
-     }
+private function uploadCategoryImage(Request $request)
+{
+    return $request->file('image')->store('category', 'public');
+}
+
+public function update(Request $request)
+{
+    $formData = $request->except(['_token', '_method', 'edit_id']);
+
+    $category = Category::findOrFail($request->edit_id);
+
+    // Generate slug
+    $formData['slug'] = $this->generateSlug($request);
+
+    // Upload image if exists
+    if ($request->hasFile('image')) {
+        $formData['image'] = $this->uploadCategoryImage($request);
+    }
+
+    $updated = $category->update($formData);
+
+    if ($updated) {
+        MessageFlashHelper('success', 'Success, Category Updated Successfully!');
+    } else {
+        MessageFlashHelper('error', 'Something went wrong');
+    }
+
+    return redirect()->back();
+}
+
 
      public function delete($id){
       $delete = Category::find($id)->delete();

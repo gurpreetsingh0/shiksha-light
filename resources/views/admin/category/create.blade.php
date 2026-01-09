@@ -42,6 +42,8 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+
+
       <div class="modal-body">
         <form id="bannerForm" action="{{ route('admin.category.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -64,6 +66,15 @@
                   <label>Description</label>
                   <textarea placeholder="type here.." name="description" class="form-control" rows="3"></textarea>
                 </div>
+
+             <div class="form-group">
+                <label>Is Home</label>
+                <select name="is_home" id="is_home" class="is_home form-control edit_status">
+                  <option value="">Choose Option</option>
+                  <option value="1">yes</option>
+                  <option value="0">no</option>
+                </select>
+              </div>
 
                 <div class="form-group">
                   <label>Status</label>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attribute;
 use App\Models\Color;
 use App\Models\Order;
+use App\Models\OrderDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
@@ -66,6 +67,10 @@ class OrderController extends Controller
               Preveiw Invoice
           </a>
           
+          <a class="dropdown-item" href="'.route('admin.order.detail',$data->id).'">
+              <i class="ik ik-eye"></i> 
+              Order Details
+          </a>
           <a class="dropdown-item">
               <i class="ik ik-printer"></i> 
               Invoice POS
@@ -163,8 +168,14 @@ class OrderController extends Controller
 
   public  function order_detail($id)
   {
-    return 'i am here';
+
+    return OrderDetails::with(['product','order','variant'])->where('order_id',$id)->get();
+
+
+    return view('admin.order.order_detail');
   }
+
+   
 
   // public function edit($id){
   //   return  Order::find($id);

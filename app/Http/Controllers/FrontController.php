@@ -41,31 +41,31 @@ class FrontController extends Controller
 
 
     #get is_tranding_product;
-    $result['home_tranding_product'][$list->id] = DB::table('products')->where(['status' => 1, 'is_tranding' => 1])->get();
-    foreach ($result['home_tranding_product'] as $list1) {
-      $tranding_product_query = DB::table('variants')->where(['product_id' => $list->id, 'status' => 1])->get();
-      if (count($tranding_product_query)) {
-        $result['home_tranding_product_attr'][$list1->id] = $tranding_product_query;
-      }
-    }
+    // $result['home_tranding_product'][$list->id] = DB::table('products')->where(['status' => 1, 'is_tranding' => 1])->get();
+    // foreach ($result['home_tranding_product'] as $list1) {
+    //   $tranding_product_query = DB::table('variants')->where(['product_id' => $list->id, 'status' => 1])->get();
+    //   if (count($tranding_product_query)) {
+    //     $result['home_tranding_product_attr'][$list1->id] = $tranding_product_query;
+    //   }
+    // }
 
     #get is_discounted product;
-    $result['home_discounted_product'][$list->id] = DB::table('products')->where(['status' => 1, 'is_discounted' => 1])->get();
-    foreach ($result['home_discounted_product'] as $list1) {
-      $home_discounted_variant = DB::table('variants')->where(['status' => 1, 'product_id' => $list->id])->get();
-      if (count($home_discounted_variant)) {
-        $result['home_discounted_product_attr'][$list1->id] = $home_discounted_variant;
-      }
-    }
+    // $result['home_discounted_product'][$list->id] = DB::table('products')->where(['status' => 1, 'is_discounted' => 1])->get();
+    // foreach ($result['home_discounted_product'] as $list1) {
+    //   $home_discounted_variant = DB::table('variants')->where(['status' => 1, 'product_id' => $list->id])->get();
+    //   if (count($home_discounted_variant)) {
+    //     $result['home_discounted_product_attr'][$list1->id] = $home_discounted_variant;
+    //   }
+    // }
 
     #get is_feature product;
-    $result['home_featured_product'][$list->id] = DB::table('products')->where(['status' => 1, 'is_featured' => 1])->get();
-    foreach ($result['home_featured_product'] as $list1) {
-      $home_feature_product_attr = DB::table('variants')->where(['status' => 1, 'product_id' => $list->id])->get();
-      if (count($home_discounted_variant)) {
-        $result['home_featured_product_attr'][$list1->id] = $home_feature_product_attr;
-      }
-    }
+    // $result['home_featured_product'][$list->id] = DB::table('products')->where(['status' => 1, 'is_featured' => 1])->get();
+    // foreach ($result['home_featured_product'] as $list1) {
+    //   $home_feature_product_attr = DB::table('variants')->where(['status' => 1, 'product_id' => $list->id])->get();
+    //   if (count($home_discounted_variant)) {
+    //     $result['home_featured_product_attr'][$list1->id] = $home_feature_product_attr;
+    //   }
+    // }
 
     $result['home_brand'] = DB::table('brands')
       ->where(['status' => 1])

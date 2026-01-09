@@ -4853,3 +4853,185 @@ img {
   color: red;
   font-size: 18px;
 }
+
+
+/*-------------akshay code start------*/
+
+.aa-product-view-content {
+    h3 {
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+    span.aa-product-view-price {
+        font-size: 20px;
+        del {
+            color: #7f7f7f;
+        }
+    }
+
+    .aa-product-avilability {
+        margin-top: 20px;
+        font-weight: 700;
+        font-size: 18px;
+        span {
+            font-weight: 500;
+        }
+    }
+
+    h4 {
+        margin-top: 30px;
+    }
+
+    .aa-prod-view-size a:hover,
+    .aa-prod-view-size a:focus {
+        background-color: #ff6666;
+        color: #fff;
+    }
+}
+
+
+section.product-categories {
+    padding: 50px 0;
+    .product-categories-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+
+        .product-categories-data {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+                rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+                z-index: 99999999;
+            img {
+                width: 100%;
+                transition: transform 0.5s ease;
+                
+            }
+            .product-categories-content {
+                position: absolute;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                transition: 0.5s;
+                width: 100%;
+                z-index: 9999;
+                h4 {
+                    text-align: center;
+                    margin: 0;
+                    padding: 10px;
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: #fff;
+                    /* a {
+                        color: #fff;
+                    } */
+                }
+            }
+
+            &:hover img {
+                transform: scale(1.1);
+            }
+        }
+    }
+}
+
+/* .product-categories-content {
+  transform: scale(0.8);
+  opacity: 0;
+  transition: 0.4s ease;
+} 
+  
+.product-categories-data:hover .product-categories-content {
+  transform: scale(1);
+  opacity: 1;
+} */
+
+.product-categories-data::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.1);
+    transform: scaleX(0);
+    transition: 0.4s ease;
+}
+
+.product-categories-data:hover::after {
+    transform: scaleX(1);
+}
+
+
+@media (max-width: 767px) {
+   .product-categories-list {
+        grid-template-columns: repeat(2, 1fr) !important;
+   }
+}
+
+@media (max-width: 575px) {
+   .product-categories-list {
+        grid-template-columns: repeat(1, 1fr) !important;
+   }
+}
+
+
+@media (max-width: 767px) {
+  .seq {
+    height: 160px;
+  }
+  .seq-model img {
+    width: 100% !important;
+  }
+}
+
+
+@media (max-width: 575px) {
+  .seq {
+    height: 160px;
+  }
+  .seq-model img {
+    width: 100% !important;
+    margin-top: 30px !important;
+  }
+
+  #aa-footer .aa-footer-top {
+    padding: 40px 0;
+    min-height: auto;
+    padding-bottom: 15px;
+}
+
+.seq .seq-next, .seq .seq-prev {
+  margin-top: -18px !important;
+}
+#aa-header .aa-header-bottom {
+  padding: 5px 0;
+}
+}
+
+.aa-footer-social.custom-social {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+address.custom-address {
+  display: block;
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
+}
+
+address.custom-address p {
+  display: inline-block;
+  padding: 0 20px;
+}
+
+#aa-footer .aa-footer-top .aa-footer-top-area .aa-footer-widget .aa-footer-social a {
+    border: 1px solid #888;
+    color: #888;
+    border-radius: 50px !important;
+    padding: 7px 0px !important;
+}
+
+
+/*-------------akshay code end-----*/

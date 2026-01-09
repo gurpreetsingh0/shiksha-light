@@ -113,13 +113,15 @@
 </style>
  
  @section('container')
- <section id="aa-slider">
+
+ <!--default code -->
+ {{-- <section id="aa-slider">
     <div class="aa-slider-area">
       <div id="sequence" class="seq">
         <div class="seq-screen">
           <ul class="seq-canvas">
             <!-- single slide item -->
-        @foreach ($home_banner as  $item)
+           @foreach ($home_banner as  $item)
             <li>
               <div class="seq-model">
                 <img data-seq src="{{asset('storage/'.$item->image)}}" alt="Men slide img" />
@@ -131,44 +133,46 @@
                 <a  target="blank" href="http://google.com" class="aa-shop-now-btn aa-secondary-btn">{{$item->btn_text}}</a>
               </div>
             </li>
-        @endforeach
+              @endforeach
+          </ul>
+        </div>
+        <!-- slider navigation btn -->
+        <fieldset class="seq-nav" aria-controls="sequence" aria-label="Slider buttons">
+          <a type="button" class="seq-prev" aria-label="Previous"><span class="fa fa-angle-left"></span></a>
+          <a type="button" class="seq-next" aria-label="Next"><span class="fa fa-angle-right"></span></a>
+        </fieldset>
+      </div>
+    </div>
+  </section> --}}
+  <!-- default section --> 
 
+
+  <!-- my custom desin -->
+<section id="aa-slider">
+    <div class="aa-slider-area">
+      <div id="sequence" class="seq">
+        <div class="seq-screen">
+          <ul class="seq-canvas">
+            
             <!-- single slide item -->
-            {{-- <li>
+          @foreach ($home_banner as  $item)
+
+           <li>
               <div class="seq-model">
-                <img data-seq src="{{asset('front_assets/img/slider/2.jpg')}}" alt="Wristwatch slide img" />
+                <img data-seq src="{{asset('storage/'.$item->image)}}" alt="Products slide img" />
               </div>
-              <div class="seq-title">
-                <span data-seq>Save Up to 40% Off</span>                
-                <h2 data-seq>Wristwatch Collection</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-              </div>
-            </li> --}}
+             
+            </li> 
+
+          @endforeach
             <!-- single slide item -->
-            {{-- <li>
+         {{-- <li>
               <div class="seq-model">
-                <img data-seq src="{{asset('front_assets/img/slider/3.jpg')}}" alt="Women Jeans slide img" />
+                <img data-seq src="storage/category/banner-one.jpg" alt="Products img" />
               </div>
-              <div class="seq-title">
-                <span data-seq>Save Up to 75% Off</span>                
-                <h2 data-seq>Jeans Collection</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-              </div>
-            </li> --}}
-            <!-- single slide item -->           
-            {{-- <li>
-              <div class="seq-model">
-                <img data-seq src="{{asset('front_assets/img/slider/4.jpg')}}" alt="Shoes slide img" />
-              </div>
-              <div class="seq-title">
-                <span data-seq>Save Up to 75% Off</span>                
-                <h2 data-seq>Exclusive Shoes</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-              </div>
-            </li>             --}}
+            
+            </li>  --}}
+           
           </ul>
         </div>
         <!-- slider navigation btn -->
@@ -179,10 +183,57 @@
       </div>
     </div>
   </section>
+
+  <!--end my custom design -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--my design -->
+
+  <section id="aa-promo" class="product-categories">
+    <div class="container">
+      <div class="product-categories-list">
+
+       @foreach($home_categories as $list)
+        <a href="{{route('front.category',$list->slug)}}">
+          <div class="product-categories-data">
+            <img class="img-fluid" src="{{asset('storage/'.$list->image)}}" alt="img" />
+            <div class="product-categories-content">
+              <h4>{{$list->name}}</h4>
+            </div>
+          </div>
+          </a>   
+          @endforeach
+      </div>
+    </div>
+  </section>
+
+  <!-- my section end -->
+
+
+
+
   
   <!-- / slider -->
   <!-- Start Promo section -->
-  <section id="aa-promo">
+  {{-- <section id="aa-promo">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -207,7 +258,10 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
+
+
+  {{-- ################### --}}
                                                      
 
   <!-- / Promo section -->

@@ -185,6 +185,9 @@ Route::middleware($back_end_middleware)->prefix('admin')->group(function () {
   #edition route
   Route::get('/order/edit/{id}', [OrderController::class, 'edit'])->name('admin.order.edit');
   Route::patch('/order/update', [OrderController::class, 'update'])->name('admin.order.update');
+
+  // Route::get('/order-detail/{id}', [FrontController::class, 'order_detail'])->name('admin.order_detail');
+
 });
 
 
