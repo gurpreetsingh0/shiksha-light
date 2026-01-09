@@ -22,6 +22,31 @@
         <script src="{{ asset('backend_assets/src/js/vendor/modernizr-2.8.3.min.js') }}"></script>
     </head>
 
+    <!-- passpoword eye icone style -->
+ <style>
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper .form-control {
+    padding-right: 40px; /* space for eye icon */
+}
+
+.password-wrapper .eye-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+    z-index: 5;
+}
+</style>
+
+<!--end eye icone style -->
+
+</style>
+
     <body>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -53,15 +78,22 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
-                                    <input id="password" type="password" placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                                    <i class="ik ik-lock"></i>
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                                </div>
+<div class="form-group password-wrapper">
+    <!-- Password input (theme lock icon stays as-is) -->
+    <input id="password"
+           type="password"
+           placeholder="Password"
+           class="form-control"
+           name="password"
+           required>
+    <i class="ik ik-lock"></i>
+
+    <!-- Eye icon OUTSIDE input -->
+    <span class="eye-toggle" id="togglePassword">
+        <i class="ik ik-eye"></i>
+    </span>
+</div>
+
                                 <div class="row">
                                     <div class="col text-left">
                                         <label class="custom-control custom-checkbox">
@@ -93,3 +125,23 @@
         
     </body>
 </html>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const toggle = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+    const icon = toggle.querySelector('i');
+
+    toggle.addEventListener('click', function () {
+        if (password.type === 'password') {
+            password.type = 'text';
+            icon.classList.remove('ik-eye');
+            icon.classList.add('ik-eye-off');
+        } else {
+            password.type = 'password';
+            icon.classList.remove('ik-eye-off');
+            icon.classList.add('ik-eye');
+        }
+    });
+});
+</script>
+ 
