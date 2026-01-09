@@ -407,9 +407,9 @@
                       <a href="#"><span class="fa fa-youtube"></span></a>
                     </div>
                      <address class="custom-address">
-                      <p> 25 Astor Pl, NY 10003, USA</p>
-                      <p><span class="fa fa-phone"></span>+1 212-982-4589</p>
-                      <p><span class="fa fa-envelope"></span>dailyshop@gmail.com</p>
+                      <p>Amritsar, Punjab</p>
+                      <p><span class="fa fa-phone"></span>+91-9876543210</p>
+                      <p><span class="fa fa-envelope"></span>info@shikshlights.com</p>
                     </address>
                   <!-- <ul class="aa-footer-nav">
                     <li><a href="#">Home</a></li>
@@ -562,7 +562,7 @@
         <div class="row">
         <div class="col-md-12">
           <div style="text-align: center;" class="aa-footer-bottom-area">
-            <p style="text-align: center;">Website Designed by <a href="#">Peer Infotech</a></p>
+            <p style="text-align: center;">Designed by <a href="https://peerinfotech.com/">Peer Infotech</a></p>
             <!-- <div class="aa-footer-payment">
               <span class="fa fa-cc-mastercard"></span>
               <span class="fa fa-cc-visa"></span>

@@ -474,7 +474,7 @@
 
   <!-- / popular section -->
   <!-- Support section -->
-  <section id="aa-support">
+  {{-- <section id="aa-support">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -507,7 +507,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
   <!-- / Support section -->
   
   <!-- Client Brand -->
