@@ -372,6 +372,7 @@ function change_product_wattage_image(img, wattage) {
 }
 
 // store data in data base
+
 function add_to_cart(product_id, wattage_str) {
     // alert(product_id);
     var wattage = $("#wattage").val();
@@ -379,12 +380,14 @@ function add_to_cart(product_id, wattage_str) {
     if (wattage_str == 0) {
         wattage = "no";
     }
+
+
     $("#product_id").val(product_id);
     $("#pqty").val(jQuery("#qty").val());
 
     if (wattage == "") {
         jQuery("#add_to_cart_msg").html(
-            '<div class="alert alert-danger fade in alert-dismissible mt10"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>Please select size</div>'
+            '<div class="alert alert-danger fade in alert-dismissible mt10"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>Please select wattage</div>'
         );
     } else {
         jQuery.ajax({
@@ -487,13 +490,63 @@ jQuery("#frmPlaceOrder").submit(function (e) {
                 // if (result.payment_url != "") {
                 //     window.location.href = result.payment_url;
                 // } else {
-                    window.location.href = `/order-detail/${result.order_id}`;
+                window.location.href = `/order-detail/${result.order_id}`;
                 // }
             }
             jQuery("#order_place_msg").html(result.msg);
         },
     });
 });
+
+
+
+
+function changeQty(change) {
+    let qtyInput = document.getElementById('qty');
+    let currentQty = parseInt(qtyInput.value) || 1;
+    let newQty = currentQty + change;
+    // limits
+    if (newQty < 1) newQty = 1;
+    if (newQty > 10) newQty = 10;
+    qtyInput.value = newQty;
+    qtyChanged(); // trigger event
+}
+
+function qtyChanged() {
+    let qty = document.getElementById('qty').value;
+    $('#pqty').val(qty);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // function showCCT() {
 //   alert('test-cct');
@@ -550,3 +603,127 @@ jQuery("#frmPlaceOrder").submit(function (e) {
 //         });
 //     }
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let selected = {
+    wattage: null,
+    cct: null,
+    color: null
+};
+
+$(document).ready(function () {
+    // ================= CLICK EVENTS =================
+    $('.wattage_link').click(function () {
+        if ($(this).hasClass('disabled')) return;
+        selected.wattage = $(this).data('wattage');
+
+        $('#wattage').val(selected.wattage);
+        activate('.wattage_link', $(this));
+        filterVariants();
+    });
+
+    $('.cct_link').click(function () {
+        if ($(this).hasClass('disabled')) return;
+        selected.cct = $(this).data('cct');
+        $('#cct').val(selected.cct);
+        activate('.cct_link', $(this));
+        filterVariants();
+    });
+
+    $('.color-circle').click(function () {
+        if ($(this).hasClass('disabled')) return;
+        selected.color = $(this).data('color');
+        $('#color').val(selected.color);
+        activate('.color-circle', $(this));
+        filterVariants();
+    });
+
+    // ================= FUNCTIONS =================
+    function activate(selector, $el) {
+        $(selector).removeClass('active');
+        $el.addClass('active');
+    }
+
+    function filterVariants() {
+        let valid = window.VARIANTS.filter(function (v) {
+            return (!selected.wattage || v.wattage == selected.wattage) &&
+                (!selected.cct || v.cct == selected.cct) &&
+                (!selected.color || v.color == selected.color);
+        });
+
+        disableOptions(valid);
+        updatePrice(valid);
+    }
+
+    function disableOptions(valid) {
+        // $('.wattage_link').each(function() {
+        //     toggle($(this), valid.some(v => v.wattage == $(this).data('wattage')));
+        // });
+
+        $('.cct_link').each(function () {
+            toggle($(this), valid.some(v => v.cct == $(this).data('cct')));
+        });
+
+        $('.color-circle').each(function () {
+            toggle($(this), valid.some(v => v.color == $(this).data('color')));
+        });
+    }
+
+    function toggle($el, enable) {
+        $el.toggleClass('disabled', !enable);
+    }
+
+    function updatePrice(valid) {
+        let finalVariant = valid;
+        if (selected.color) {
+            finalVariant = valid.filter(v => v.color == selected.color);
+        }
+
+        if (finalVariant.length === 1) {
+            let price = finalVariant[0].price;
+            let mrp = finalVariant[0].mrp;
+
+            // Update main price
+            $('.aa-price-block > .aa-product-view-price').first().text('Rs ' + price);
+
+            // Update MRP if exists
+            if (mrp && mrp > price) {
+                $('.aa-price-block > .aa-product-view-price').eq(1).html('<del>Rs ' + mrp + '</del>');
+            } else {
+                $('.aa-price-block > .aa-product-view-price').eq(1).html('');
+            }
+
+            // Update stock
+            $('.aa-product-avilability span').text(finalVariant[0].stock);
+        } else if (window.VARIANTS.length > 0) {
+            // Reset to first variant
+            let price = window.VARIANTS[0].price;
+            let mrp = window.VARIANTS[0].mrp;
+
+            $('.aa-price-block > .aa-product-view-price').first().text('Rs ' + price);
+
+            if (mrp && mrp > price) {
+                $('.aa-price-block > .aa-product-view-price').eq(1).html('<del>Rs ' + mrp + '</del>');
+            } else {
+                $('.aa-price-block > .aa-product-view-price').eq(1).html('');
+            }
+
+            $('.aa-product-avilability span').text(window.VARIANTS[0].stock);
+        }
+    }
+
+
+});

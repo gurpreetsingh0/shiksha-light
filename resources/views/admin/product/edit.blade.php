@@ -193,44 +193,65 @@
 
 
   <div class="row mb-2">
-    <div class="col-md-3">
+    <!--Attribute Start -->
+    <div class="col-md-2">
       <label>Wattage</label>
-      <input class="form-control shadow-sm"
+      <input class="form-control shadow-sm" placeholder="Enter Wattage"
         name="variants[{{ $index }}][wattage]"
         value="{{ $item->wattage }}">
     </div>
-    <div class="col-md-3">
-      <label>Voltage</label>
+
+     <div class="col-md-2">
+      <label>CCT</label>
       <input class="form-control shadow-sm"
+        name="variants[{{ $index }}][cct]"
+        value="{{ $item->cct }}" placeholder="3K,4K,6k">
+    </div>
+
+ 
+     <div class="col-md-2 mb-2">
+     <label>Body Color</label>
+      <select name="variants[{{ $index }}][body_color]" class="form-control shadow-sm">
+      <option value="">Select Body Color</option>
+      @foreach ($color as $col)
+        <option @if($item->body_color == $col->id) selected @endif  value="{{ $col->id }}">{{ $col->name }}</option>
+      @endforeach
+    </select>
+    </div>
+
+    <!-- Attribute End -->
+
+  
+    <div class="col-md-2">
+      <label>Voltage</label>
+      <input class="form-control shadow-sm" placeholder="Enter Voltage"
         name="variants[{{ $index }}][voltage]"
         value="{{ $item->voltage }}">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
       <label>Material</label>
       <input class="form-control shadow-sm"
-        name="variants[{{ $index }}][material]"
+        name="variants[{{ $index }}][material]" placeholder="Enter Material"
         value="{{ $item->material }}">
     </div>
-    <div class="col-md-3">
-      <label>Dimensions</label>
-      <input class="form-control shadow-sm"
-        name="variants[{{ $index }}][dimension]"
-        value="{{ $item->dimension }}">
-    </div>
+    
   </div>
 
-  <div class="row">
-    <div class="col-md-6">
-      <label>Price</label>
-      <input type="number" class="form-control shadow-sm"
-        name="variants[{{ $index }}][price]"
-        value="{{ $item->price }}">
+  
+    <div class="row mb-2">
+    <div class="col-md-4 mb-2">
+      <label>Regular Price</label>
+      <input value="{{ $item->mrp }}" type="number" class="form-control shadow-sm" name="variants[{{ $index }}][mrp]" placeholder="₹">
     </div>
-    <div class="col-md-6">
+    
+    <div class="col-md-4 mb-2"> <!-- mrp -->
+      <label>Sale Price</label> 
+      <input value="{{ $item->price }}" type="number" class="form-control shadow-sm" name="variants[{{ $index }}][price]" placeholder="Enter mrp product">
+    </div>
+
+    <div class="col-md-4 mb-2">
       <label>Stock</label>
-      <input type="number" class="form-control shadow-sm"
-        name="variants[{{ $index }}][stock]"
-        value="{{ $item->stock }}">
+      <input value="{{ $item->stock }}" type="number" class="form-control shadow-sm" name="variants[{{ $index }}][stock]" placeholder="Enter Stock">
     </div>
   </div>
 

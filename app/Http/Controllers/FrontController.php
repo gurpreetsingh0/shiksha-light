@@ -71,21 +71,24 @@ class FrontController extends Controller
       ->where(['status' => 1])
       // ->where(['is_home' => 1])
       ->get();
-
-
-
     $result['home_banner'] = DB::table('banners')->where(['status' => 1])->get();
-
     return view('front.index', $result);
   }
 
+  public function product(Request $request, $slug){
+     $product = Product::where(['slug'=>$slug,'status'=>1])
+    ->with(['category', 'gallary_images', 'variants'])
+    ->first();
+    return view('front.product', ['product'=>$product]);
+  }
 
-  public function product(Request $request, $slug)
+
+  public function product_old(Request $request, $slug)
   {
  
-    $product = Product::where(['slug'=>$slug,'status'=>1])
-    ->with(['category', 'gallary_images', 'variants'])
-    ->get();
+    // $product = Product::where(['slug'=>$slug,'status'=>1])
+    // ->with(['category', 'gallary_images', 'variants'])
+    // ->get();
 
 
     // return $slug;

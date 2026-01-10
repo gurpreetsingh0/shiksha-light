@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attribute;
+use App\Models\Color;
 use App\Models\AttributeOption;
 use App\Models\Category;
 use App\Models\Product;
@@ -28,11 +29,33 @@ class ProductController extends Controller
       ->addColumn('category', function ($data) {
         return ($data->category) ? $data->category->name : "--";
       })
+      // ->addColumn('action', function ($data) {
+      // //  <a href="#productView" data-toggle="modal" data-target="#productView"><i class="ik ik-eye f-16 mr-15"></i></a>
+      //   return '
+      //    <a href="'.route('admin.product.edit',$data->id). '"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
+      //   <a  href="javascript:void(0)" data-id="' . $data->id . '" class="delete_btn"><i class="ik ik-trash-2 f-16 text-red"></i></a>';
+      // })
+
+
       ->addColumn('action', function ($data) {
-      //  <a href="#productView" data-toggle="modal" data-target="#productView"><i class="ik ik-eye f-16 mr-15"></i></a>
-        return '
-         <a href="'.route('admin.product.edit',$data->id). '"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
-        <a  href="javascript:void(0)" data-id="' . $data->id . '" class="delete_btn"><i class="ik ik-trash-2 f-16 text-red"></i></a>';
+         return '<div class="dropdown d-inline-block">
+        <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="ik ik-more-vertical"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+ 
+          
+          <a class="dropdown-item" href="'.route('admin.product.edit',$data->id). '">
+              <i class="ik ik-edit"></i> 
+              Edit
+          </a>
+ 
+   
+            
+            <a class="dropdown-item delete_btn" data-id="'.$data->id.'" href="javascript:void(0)">
+              <i class="ik ik-trash"></i> Delete </a>
+        </div>
+    </div>';
       })
       ->addColumn('checkbox', function ($data) {
         return '<label class="custom-control custom-checkbox">
@@ -47,12 +70,8 @@ class ProductController extends Controller
 
   public function create()
   {
-
-    //  $data['wattages'] = AttributeOption::whereHas('attribute',function($q){
-    //     $q->where('slug','wattage');
-    // })->get();
-
-     $data['categories'] = Category::where('status', 1)->get();
+    $data['color'] = Color::select(['id','name','slug'])->where('status',1)->get();
+    $data['categories'] = Category::where('status', 1)->get();
     return view('admin.product.create', compact('data'));
   }
 
@@ -63,9 +82,7 @@ class ProductController extends Controller
   {
     // return $request->all();
     DB::beginTransaction();
-
     $product_image_path = null;
-
     try {
       if ($request->hasFile('images')) {
         $product_image_path = $request->file('images')
@@ -118,7 +135,12 @@ class ProductController extends Controller
             'catalog_number' => $variant['catalog_no'] ?? null,
             'sku'            => $variant['sku'] ?? null,
 
+            #attribute data
             'wattage'        => $variant['wattage'] ?? null,
+            'body_color'     => $variant['body_color'] ?? null,
+            'cct'            => $variant['cct'] ?? null,
+
+
             'voltage'        => $variant['voltage'] ?? null,
             'dimension'      => $variant['dimension'] ?? null,
             'material'       => $variant['material'] ?? null,
@@ -131,8 +153,7 @@ class ProductController extends Controller
 
             'mrp'            => $variant['mrp'] ?? null,
             'price'          => $variant['price'] ?? null,
-            'cct'            => $variant['cct'] ?? null,
-            'stock'          => $variant['stock'] ?? 0,
+             'stock'          => $variant['stock'] ?? 0,
 
             'image'          => $variantImage,
             'status'         => 1,
@@ -155,21 +176,18 @@ class ProductController extends Controller
 
   public function edit($id){
     $data = Product::with(['category', 'gallary_images','variants'])->find($id);
+    $color = Color::select(['id','name','slug'])->where('status',1)->get();
+
     $data['categories'] = Category::where('status', 1)->get();
-    //  prx($data['product']);
-    return view('admin.product.edit',compact('data'));
+    return view('admin.product.edit',compact('data','color'));
   }
 
   public function update(Request $request, $id)
   {
     // return $request->all();
-
     DB::beginTransaction();
-
     try {
-
       $product = Product::findOrFail($id);
-
       /* ---------- MAIN PRODUCT IMAGE ---------- */
       $product_image_path = $product->image;
 
@@ -232,6 +250,9 @@ class ProductController extends Controller
             'sku'            => $variant['sku'] ?? null,
 
             'wattage'        => $variant['wattage'] ?? null,
+            'cct'            => $variant['cct'] ?? null,
+            'body_color'     => $variant['body_color'] ?? null,
+
             'voltage'        => $variant['voltage'] ?? null,
             'dimension'      => $variant['dimension'] ?? null,
             'material'       => $variant['material'] ?? null,

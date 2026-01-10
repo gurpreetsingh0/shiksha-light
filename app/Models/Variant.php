@@ -12,6 +12,7 @@ class Variant extends Model
     'sku',
     'cct',
     'wattage',
+    'body_color',
     'voltage',
     'dimension',
     'material',
@@ -28,4 +29,12 @@ class Variant extends Model
     'outer_diameter',
     'inner_diameter'
   ];
+// Variant.php
+public function bodyColor()
+{
+    return $this->belongsTo(Color::class, 'body_color');
+}
+
+
+
 }

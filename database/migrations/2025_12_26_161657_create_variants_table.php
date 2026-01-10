@@ -22,6 +22,15 @@ return new class extends Migration
       ->onUpdate('cascade')
       ->onDelete('cascade');
 
+      $table->unsignedBigInteger('body_color')->nullable();
+      $table->foreign('body_color')
+      ->on('colors')
+      ->references('id')
+      ->onUpdate('cascade')
+      ->onDelete('set null');
+
+      $table->string('custom_attr')->nullable();
+
       // Identification
       $table->string('catalog_number')->nullable(); // Cat. No.
       $table->string('sku')->nullable()->unique();

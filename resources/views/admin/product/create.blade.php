@@ -164,33 +164,39 @@
               <!--Row Start -->
               <!-- Watage -->
               <div class="row mb-2">
-                <div class="col-md-3 mb-2">
+                <div class="col-md-2 mb-2">
                   <label>Wattage</label>
                   <input type="text" class="form-control shadow-sm" name="variants[0][wattage]" placeholder="Wattage">
                 </div>
-                <div class="col-md-3 mb-2">
+                
+                <div class="col-md-2 mb-2">
                   <label>CCT</label>
                   <input type="text" class="form-control shadow-sm" name="variants[0][cct]" placeholder="3K,4K,6k">
                 </div>
 
+                <div class="col-md-2 mb-2">
+                  <label>Body Color</label>
+               <select name="variants[0][body_color]" class="form-control shadow-sm">
+                <option value="">Select Body Color</option>
+                @foreach ($data['color'] as $item)
+                  <option value="{{ $item->id }}">{{ $item->name }}</option>
+                @endforeach
+              </select>
+             </div>
+
                 <!-- Voltage -->
-                <div class="col-md-3 mb-2">
+                <div class="col-md-2 mb-2">
                   <label>Voltage</label>
                   <input type="text" class="form-control shadow-sm" name="variants[0][voltage]" placeholder="220V">
                 </div>
                 
                 <!-- Material -->
-                <div class="col-md-3 mb-2">
+                <div class="col-md-4 mb-4">
                   <label>Material</label>
                   <input type="text" class="form-control shadow-sm" name="variants[0][material]"
                     placeholder="Aluminium">
                 </div>
-                <!-- Dimension -->
-                {{-- <div class="col-md-3 mb-2">
-                <label>Dimensions</label>
-                <input type="text" class="form-control shadow-sm" name="variants[0][dimension]"
-                  placeholder="200 x 150 x 60 mm">
-                </div> --}}
+               
               </div>
               <!-- Row End -->
  
